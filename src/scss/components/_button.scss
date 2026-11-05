@@ -1,0 +1,62 @@
+$play-button-color: rgba(240, 234, 110, 1);
+$play-button-ink: rgba(48, 49, 49, 1);
+
+.play-button {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 250px;
+  height: 98px;
+  padding: 0;
+  border: unset;
+  background: $play-button-color;
+  color: $play-button-ink;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 200ms ease;
+
+  &__controller {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 32px;
+    transition: transform 200ms ease;
+  }
+
+  &__label {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  &__arrow {
+    flex: 0 0 auto;
+    width: 33px;
+    height: 18px;
+    background: url('/icons/arrow-thin.svg') center / contain no-repeat;
+  }
+
+  &:hover {
+    transform: scale(1.07692, 1.0402);
+  }
+
+  &:hover &__controller {
+    transform: rotate(-25.77deg) scale(1.125);
+  }
+
+  &:hover &__arrow {
+    transform: scaleX(1.09091);
+    background-image: url('/icons/arrow-bold.svg');
+  }
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play-button, .play-button__controller { transition: none; }
+}

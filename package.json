@@ -1,0 +1,19 @@
+{
+  "name": "template-website-full",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "check:ts": "tsc --noEmit",
+    "check:conventions": "node tools/check-conventions.mjs",
+    "check": "npm run check:ts && npm run check:conventions",
+    "build": "npm run check && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.93.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0"
+  }
+}
