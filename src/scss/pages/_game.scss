@@ -1,0 +1,218 @@
+$game-bg: rgba(48, 49, 49, 1);
+$teal-panel: rgba(134, 233, 214, .2);
+$teal-border: rgba(77, 213, 188, 1);
+$blue: rgba(43, 177, 255, 1);
+$orange: rgba(245, 142, 57, 1);
+
+.game-page { min-width: 320px; min-height: 100svh; background: $game-bg; color: #fff; }
+.game {
+  min-height: 100svh;
+  padding: 32px 24px 64px;
+  &__container { max-width: 1440px; margin: 0 auto; }
+  &__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; min-height: 95px; }
+  &__scores { display: flex; align-items: center; flex-wrap: wrap; width: max-content; min-width: 292px; min-height: 62px; gap: 18px; padding: 12px 16px; background: $teal-panel; }
+  &__player { display: flex; align-items: center; gap: 5px; font-size: 26px; font-weight: 700; white-space: nowrap; }
+  &__player img { width: 23px; height: 23px; object-fit: contain; }
+  &__player--blue { color: $blue; }
+  &__player--orange { color: $orange; }
+  &__player--blue img { filter: brightness(0) saturate(100%) invert(59%) sepia(96%) saturate(1633%) hue-rotate(169deg); }
+  &__player--orange img { filter: brightness(0) saturate(100%) invert(72%) sepia(61%) saturate(2010%) hue-rotate(332deg); }
+  &__player--active { animation: active-player 2s ease-in-out infinite; transform-origin: center; will-change: transform, opacity; }
+  &__player output { min-width: 2ch; font-variant-numeric: tabular-nums; }
+  &__turn { margin: 12px 0 0; font-size: 18px; color: #e1e1e1; }
+  &__turn--sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+  &__exit { display: flex; align-items: center; justify-content: center; gap: 10px; justify-self: end; width: 207px; height: 62px; background: $teal-panel; border: 1px solid $teal-border; color: #fff; font-size: 24px; font-weight: 700; text-decoration: none; transition: background 180ms ease; }
+  &__exit:hover { background: rgba(134, 233, 214, .34); }
+  &__exit:focus-visible { outline: 3px solid #f0ea6e; outline-offset: 4px; }
+  &__exit img { width: 27px; height: 27px; }
+  &__board { display: grid; grid-template-columns: repeat(var(--board-columns), 120px); justify-content: center; gap: 8px; width: max-content; max-width: 100%; margin: 16px auto 0; }
+  &__board--16 { --board-columns: 4; }
+  &__board--24, &__board--36 { --board-columns: 6; }
+  &__message { min-height: 24px; margin: 18px 0 0; text-align: center; font-size: 18px; }
+}
+
+.memory-card {
+  display: block; position: relative; width: 120px; height: 120px; padding: 0; border: unset;
+  background: transparent; cursor: pointer; perspective: 850px;
+  &:focus-visible { outline: 3px solid #f0ea6e; outline-offset: 3px; }
+  &__inner { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 480ms ease; }
+  &.is-flipped &__inner { transform: rotateY(180deg); }
+  &__face { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; overflow: hidden; }
+  &__face--back { background: linear-gradient(212.26deg, #4dd5bc 29.42%, #286f62 123.94%); }
+  &__face--back img { display: block; place-self: center; width: 50%; height: 40%; object-fit: contain; opacity: .2; }
+  &__face--front { background: rgba(232, 243, 240, 1); border: 0; transform: rotateY(180deg); }
+  &__face--front img { display: block; width: min(70px, 88%); height: min(70px, 88%); object-fit: contain; }
+  &.is-matched { cursor: default; }
+  &:disabled { cursor: default; }
+}
+
+.game-over {
+  position: fixed; z-index: 10; inset: 0; display: grid; place-items: center; padding: 24px;
+  background: rgba(0, 0, 0, .75);
+  &[hidden] { display: none; }
+  &__panel { width: min(100%, 540px); padding: 44px 28px; border: 2px solid $teal-border; background: $game-bg; text-align: center; }
+  h1 { margin: 0 0 24px; font-size: clamp(36px, 5vw, 60px); }
+  p { font-size: 24px; }
+  &__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 36px; }
+  &__actions button, &__actions a { display: inline-grid; place-items: center; min-height: 52px; padding: 12px 18px; border: unset; background: #f0ea6e; color: $game-bg; font: 700 18px 'Red Rose', sans-serif; text-decoration: none; cursor: pointer; }
+  &__actions a { background: $teal-panel; color: white; border: 1px solid $teal-border; }
+}
+
+@keyframes active-player {
+  0%, 100% { opacity: .7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game__player--active { animation: none; will-change: auto; text-decoration: underline; text-underline-offset: 5px; }
+  .memory-card__inner { transition: none; }
+}
+@media (max-width: 900px) {
+  .game__header { min-height: 100px; }
+  .game__board { --card-size: min(120px, calc((100vw - 56px - (var(--board-columns) - 1) * 6px) / var(--board-columns))); grid-template-columns: repeat(var(--board-columns), var(--card-size)); gap: 6px; }
+  .memory-card { width: 100%; height: auto; aspect-ratio: 1; }
+}
+@media (max-width: 600px) {
+  .game { padding: 16px 12px 40px; }
+  .game__header { gap: 12px; }
+  .game__scores { min-width: 0; gap: 9px; padding: 8px; min-height: 46px; }
+  .game__player { font-size: 16px; }
+  .game__player--active { font-size: 18px; }
+  .game__player img { width: 16px; height: 16px; }
+  .game__exit { width: auto; min-width: 108px; height: 46px; padding: 8px; gap: 6px; font-size: 16px; }
+  .game__exit img { width: 20px; height: 20px; }
+  .game__board { --card-size: min(120px, calc((100vw - 24px - (var(--board-columns) - 1) * 5px) / var(--board-columns))); gap: 5px; }
+  .memory-card__face--back img { width: 50%; height: 40%; }
+}
+
+// Exit confirmation: centered with a subtle top-down entrance.
+.quit-dialog {
+  position: fixed; inset: 0; z-index: 20; display: grid; place-items: center;
+  padding: 18px; background: rgba(0, 0, 0, .52);
+  &[hidden] { display: none; }
+  &__panel {
+    display: flex; flex-direction: column; justify-content: space-between;
+    width: min(539px, 100%); min-height: 270px; padding: 43px 28px 40px;
+    background: #fff; color: #303131; text-align: center;
+    animation: quit-float-in 380ms cubic-bezier(.2, .7, .2, 1) both;
+  }
+  h2 { max-width: 480px; margin: 0 auto; font-size: clamp(23px, 3.8vw, 32px); line-height: 1.16; font-weight: 700; }
+  &__actions { display: flex; justify-content: center; gap: 20px; }
+  &__actions button {
+    display: grid; place-items: center; width: 182px; height: 57px;
+    padding: 6px; border: 2px solid transparent; font: 700 20px 'Red Rose', sans-serif;
+    cursor: pointer; transition: background 160ms ease, border-color 160ms ease;
+  }
+  &__back { background: rgba(102, 207, 188, 1); color: #fff; }
+  &__back:hover { background: rgba(77, 213, 188, 1); border-color: rgba(102, 207, 188, 1); }
+  &__exit { background: #fff; color: #4dd5bc; border-color: #4dd5bc !important; }
+  &__exit:hover { background: rgba(77, 213, 188, .13); }
+  button:focus-visible { outline: 3px solid #303131; outline-offset: 3px; }
+}
+
+@keyframes quit-float-in {
+  from { opacity: 0; transform: translateY(-115vh); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Full-page presentation following a completed round.
+.game-end {
+  position: fixed; inset: 0; z-index: 15; display: grid; place-items: center;
+  padding: 24px; background: rgba(48, 49, 49, 1); text-align: center;
+  &[hidden], [hidden] { display: none !important; }
+  &__intro { width: min(990.5px, 100%); min-height: min(367.2px, 70vh); }
+  &__headline { display: block; width: 100%; max-height: 125.2px; object-fit: contain; }
+  &__score-label { margin: 54px 0 22px; color: #fff; font-size: 24px; }
+  &__scores {
+    display: inline-flex; justify-content: center; gap: 20px; padding: 16px 20px;
+    background: rgba(134, 233, 214, .2); font-size: 24px; font-weight: 700;
+  }
+  &__scores span { display: inline-flex; align-items: center; gap: 5px; }
+  &__scores img { width: 22px; height: 22px; }
+  &__blue { color: rgba(43, 177, 255, 1); }
+  &__orange { color: rgba(245, 142, 57, 1); }
+  &__blue img { filter: brightness(0) saturate(100%) invert(59%) sepia(96%) saturate(1633%) hue-rotate(169deg); }
+  &__orange img { filter: brightness(0) saturate(100%) invert(72%) sepia(61%) saturate(2010%) hue-rotate(332deg); }
+  &__outcome { width: 100%; max-width: 1234px; min-height: min(690px, 85vh); position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  &__confetti { position: fixed; top: 0; left: 40px; right: 40px; width: auto; height: min(358.88px, 48vh); pointer-events: none; overflow: hidden; }
+  &__confetti img { position: absolute; width: clamp(70px, 12vw, 170px); height: auto; object-fit: contain; }
+  &__winner, &__draw { display: flex; align-items: center; flex-direction: column; position: relative; z-index: 1; }
+  &__winner-label { font-size: 40px; color: #fff; margin: 0; }
+  #winner-name { font-size: clamp(36px, 5vw, 60px); margin: 0 0 30px; }
+  #winner-name[data-winner='blue'] { color: #2bb1ff; }
+  #winner-name[data-winner='orange'] { color: #f58e39; }
+  &__pawn { width: min(185px, 36vw); height: auto; }
+  &__pawn[data-winner='blue'] { filter: brightness(0) saturate(100%) invert(59%) sepia(96%) saturate(1633%) hue-rotate(169deg); }
+  &__pawn[data-winner='orange'] { filter: brightness(0) saturate(100%) invert(72%) sepia(61%) saturate(2010%) hue-rotate(332deg); }
+  &__draw-label { font-size: 32px; margin: 0; }
+  &__draw-text { display: block; width: min(370px, 75vw); height: auto; }
+  &__scale { display: block; width: min(290px, 55vw); height: auto; margin-top: 22px; }
+  &__home {
+    position: relative; z-index: 2; display: grid; place-items: center; min-width: 207px; min-height: 62px;
+    padding: 8px 14px; color: #fff; border: 1px solid #4dd5bc;
+    background: rgba(134, 233, 214, .2); font-size: 24px; font-weight: 700;
+    text-decoration: none; transition: background 180ms ease;
+    &:hover { background: rgba(134, 233, 214, .34); }
+    &:focus-visible { outline: 3px solid #f0ea6e; outline-offset: 3px; }
+  }
+}
+
+@media (max-width: 600px) {
+  .quit-dialog__panel { padding: 28px 15px; min-height: 240px; }
+  .quit-dialog__actions { gap: 10px; }
+  .quit-dialog__actions button { width: min(182px, 45%); font-size: 16px; }
+  .game-end__scores { gap: 10px; padding: 12px; font-size: 17px; }
+  .game-end__score-label { margin: 36px 0 16px; }
+  .game-end__winner-label { font-size: 26px; }
+  .game-end__home { min-width: 160px; min-height: 54px; font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quit-dialog__panel { animation: none; }
+}
+
+// Prevent long custom player names from compressing the score.
+.game__player span { max-width: 10ch; overflow-wrap: anywhere; }
+.game-end__scores span { white-space: nowrap; }
+@media (max-width: 600px) {
+  .game__scores { max-width: 100%; width: auto; }
+  .game__player { white-space: normal; }
+  .game-end__scores { max-width: 100%; flex-wrap: wrap; }
+}
+
+
+// Unified outlined controls; keep border thickness inside the existing footprint.
+.game__exit, .game-end__home, .quit-dialog__exit {
+  box-sizing: border-box;
+  background: rgba(134, 233, 214, .14);
+  border: 2px solid rgba(77, 213, 188, 1);
+  transition: background 180ms ease, border-width 180ms ease, box-shadow 180ms ease;
+  &:hover {
+    background: rgba(134, 233, 214, .26);
+    border-width: 3px;
+    box-shadow: 4px 4px 6px 0 rgba(77, 213, 188, .2);
+  }
+}
+.quit-dialog__exit { border-color: rgba(77, 213, 188, 1) !important; }
+.quit-dialog__back {
+  box-sizing: border-box;
+  background: rgba(102, 207, 188, 1);
+  border: 2px solid transparent;
+  &:hover { background: rgba(102, 207, 188, .7); border: 3px solid rgba(58, 188, 164, 1); }
+}
+
+// A found pair remains face up and gains an inset five-pixel outline.
+.memory-card.is-matched .memory-card__face--front {
+  border: 5px solid rgba(77, 213, 188, 1);
+  box-sizing: border-box;
+}
+
+// Header panel is independent of the card grid and centered in the game area.
+.game__header {
+  width: min(100%, 1219px);
+  min-height: 102px;
+  margin-inline: auto;
+  padding: 20px 24px;
+  align-items: center;
+  background: rgba(77, 213, 188, .2);
+  box-shadow: 3px 2px 10.1px 0 rgba(0, 0, 0, .2);
+}
+.game__exit { flex-shrink: 0; margin-left: auto; }

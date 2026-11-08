@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Memory – Settings</title>
+  <link rel="icon" type="image/svg+xml" href="/icons/controller.svg">
+  <script type="module" src="/src/ts/settings.ts"></script>
+</head>
+<body class="settings-page">
+  <main class="settings">
+    <div class="settings__container">
+      <section class="settings__panel" aria-labelledby="settings-title">
+        <h1 class="settings__title" id="settings-title">Settings</h1>
+        <div class="settings__columns">
+          <form class="settings__form" id="settings-form">
+            <fieldset class="setting-group">
+              <legend class="setting-group__heading"><img src="/icons/palette.svg" alt="">Game themes</legend>
+              <label class="setting-option" data-preview="theme1"><input type="radio" name="theme" value="code-vibes" required><span>Code vibes theme</span></label>
+              <label class="setting-option" data-preview="theme2"><input type="radio" name="theme" value="da-projects" required><span>DA Projects theme</span></label>
+            </fieldset>
+            <fieldset class="setting-group">
+              <legend class="setting-group__heading setting-group__heading--players"><img src="/icons/chess_pawn.svg" alt="">Choose player
+              <span class="player-mode" role="group" aria-label="Number of human players">
+                <span id="mode-one-label">1P</span>
+                <label class="player-mode__switch" for="player-mode" aria-label="Switch between one and two players">
+                  <input id="player-mode" type="checkbox" role="switch" aria-label="Two human players">
+                  <span class="player-mode__track" aria-hidden="true"></span>
+                </label>
+                <span id="mode-two-label">2P</span>
+              </span></legend>
+              <div class="player-options" id="player-colors">
+                <div class="setting-option setting-option--player">
+                  <input type="radio" id="player-blue" name="player" value="blue" required>
+                  <label class="player-color-label" for="player-blue">Blue</label>
+                  <label class="player-name-label" for="player-one-name" hidden>Player 1 name</label>
+                  <input class="player-name-input" id="player-one-name" name="player-one-name" type="text" minlength="1" maxlength="10" pattern=".*\S.*" value="Player 1" autocomplete="off" aria-label="Name of blue player" hidden disabled>
+                </div>
+                <div class="setting-option setting-option--player">
+                  <input type="radio" id="player-orange" name="player" value="orange" required>
+                  <label class="player-color-label" for="player-orange">Orange</label>
+                  <label class="player-name-label" for="player-two-name" hidden>Player 2 name</label>
+                  <input class="player-name-input" id="player-two-name" name="player-two-name" type="text" minlength="1" maxlength="10" pattern=".*\S.*" value="Player 2" autocomplete="off" aria-label="Name of orange player" hidden disabled>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="setting-group">
+              <legend class="setting-group__heading"><img src="/icons/style.svg" alt="">Board size</legend>
+              <label class="setting-option"><input type="radio" name="board" value="16" required><span>16 cards</span></label>
+              <label class="setting-option"><input type="radio" name="board" value="24" required><span>24 cards</span></label>
+              <label class="setting-option"><input type="radio" name="board" value="36" required><span>36 cards</span></label>
+            </fieldset>
+          </form>
+          <div class="settings__visuals">
+            <div class="theme-preview" aria-label="Theme preview">
+              <img id="theme-preview" src="/img/theme1_preview.png" alt="Preview of Code vibes theme">
+            </div>
+            <div class="selection-summary" id="selection-summary" aria-live="polite">
+              <span class="selection-summary__item" id="summary-theme">Theme</span>
+              <span class="selection-summary__divider" aria-hidden="true"></span>
+              <span class="selection-summary__item" id="summary-player">Player</span>
+              <span class="selection-summary__divider" aria-hidden="true"></span>
+              <span class="selection-summary__item" id="summary-board">Board size</span>
+              <button class="start-button" id="start-button" type="submit" form="settings-form" disabled><img src="/icons/play.svg" alt=""><span>Start</span></button>
+            </div>
+            <p class="settings__notice" id="settings-notice" role="status" hidden></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

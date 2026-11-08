@@ -6,6 +6,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: 'index.html',
+        settings: 'settings.html',
+        game: 'game.html',
         imprint: 'imprint.html',
       },
     },

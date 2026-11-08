@@ -1,0 +1,100 @@
+// Theme 2: DA Projects. Overrides live only under the selected game theme.
+$theme2: rgba(30, 117, 148, 1);
+$theme2-blue: rgba(9, 127, 197, 1);
+$theme2-orange: rgba(234, 105, 0, 1);
+
+// Keep the start button's hover within its own layout box.
+.selection-summary { column-gap: 15px; row-gap: 12px; }
+.start-button {
+  transform-origin: center;
+  transition: transform 180ms ease, background 180ms ease;
+  &:not(:disabled):hover { width: 126px; height: 53px; transform: scale(1.08); }
+  &:not(:disabled):hover img { width: 20px; height: 16px; transform: rotate(-7deg) scale(1.15); }
+}
+@media (max-width: 575.98px) {
+  .start-button:not(:disabled):hover { width: 112px; height: 53px; transform: scale(1.06); }
+}
+@media (hover: none) { .start-button:not(:disabled):hover { transform: none; } }
+.memory-card__face--front { background: rgba(232, 243, 240, 1); }
+
+.game-page--theme2 {
+  background: #fff;
+  color: $theme2;
+  font-family: 'Figtree', sans-serif;
+  .game__header {
+    background: rgba(240, 243, 244, 1);
+    box-shadow: none;
+    border-radius: 10px;
+  }
+  .game__scores { background: #fff; border-radius: 10px; }
+  .game__player--blue { color: $theme2-blue; }
+  .game__player--orange { color: $theme2-orange; }
+  .game__player img { content: url('/icons/playertheme2.svg'); }
+  .game__player--blue img { filter: brightness(0) saturate(100%) invert(36%) sepia(89%) saturate(1526%) hue-rotate(164deg); }
+  .game__player--orange img { filter: brightness(0) saturate(100%) invert(43%) sepia(92%) saturate(2200%) hue-rotate(4deg); }
+  .game__turn { color: $theme2; }
+  .game__exit, .game-end__home {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: rgba(191, 229, 242, 1);
+    color: $theme2;
+    box-shadow: 3px 3px 5px 0 rgba(47, 46, 46, .2);
+    &:hover { border-color: transparent; background: $theme2; color: #fff; box-shadow: 3px 3px 5px 0 rgba(47, 46, 46, .2); }
+    img { filter: none; }
+    &:hover img { filter: drop-shadow(3px 3px 5px rgba(47, 46, 46, .2)); }
+  }
+  .game__board { row-gap: 8px; }
+  .memory-card { width: 120px; height: 100px; aspect-ratio: 6 / 5; }
+  .memory-card__face { border-radius: 13px; }
+  .memory-card__face--back { background: $theme2; }
+  .memory-card__face--front { background: rgba(234, 242, 244, 1); }
+  .memory-card.is-matched .memory-card__face--front { border: 2px solid $theme2; }
+  .quit-dialog__panel { background: rgba(240, 246, 249, 1); border-radius: 20px; color: $theme2; }
+  .quit-dialog__back {
+    border: 1px solid rgba(138, 56, 245, 1);
+    border-radius: 10px;
+    background: rgba(191, 229, 242, 1);
+    color: $theme2;
+    box-shadow: 3px 3px 5px 0 rgba(47, 46, 46, .2);
+    &:hover { border: 1px solid rgba(138, 56, 245, 1); background: $theme2; color: #fff; }
+  }
+  .quit-dialog__exit {
+    border: 2px solid transparent !important;
+    border-radius: 10px;
+    background: rgba(253, 138, 129, 1);
+    color: #fff;
+    box-shadow: 3px 3px 5px 0 rgba(47, 46, 46, .2);
+    &:hover { border-color: transparent !important; background: rgba(237, 91, 80, 1); box-shadow: 3px 3px 5px 0 rgba(47, 46, 46, .2); }
+  }
+  .game-end { background: $theme2; color: #fff; }
+  .game-end__score-label { font-size: 30px; }
+  .game-end__scores { background: #fff; border-radius: 10px; }
+  .game-end__blue { color: $theme2-blue; }
+  .game-end__orange { color: $theme2-orange; }
+  .game-end__blue img, .game-end__orange img { content: url('/icons/playertheme2.svg'); }
+  .game-end__blue img { filter: brightness(0) saturate(100%) invert(36%) sepia(89%) saturate(1526%) hue-rotate(164deg); }
+  .game-end__orange img { filter: brightness(0) saturate(100%) invert(43%) sepia(92%) saturate(2200%) hue-rotate(4deg); }
+  .game-end__winner-label { font-size: 40px; }
+  #winner-name { color: #fff !important; }
+  .game-end__pawn { width: min(190px, 42vw); filter: none !important; }
+  .game-end__pawn[data-winner='blue'] { filter: hue-rotate(165deg) saturate(1.3) !important; }
+  .game-end__draw-text { display: none; }
+  .game-end__draw::before {
+    content: 'DRAW'; display: block; font-size: clamp(52px, 9vw, 84px);
+    color: #fd5b4f; font-weight: 700; line-height: 1.2;
+    text-shadow: 3px 3px 2px rgba(0, 0, 0, .13);
+  }
+  .game-end__scale { width: min(290px, 55vw); filter: none; }
+  .game-end__home { border: 2px solid transparent; text-decoration: none; }
+}
+@media (max-width: 900px) {
+  .game-page--theme2 .memory-card { width: 100%; height: auto; }
+}
+@media (max-width: 600px) {
+  .game-page--theme2 .game__scores { flex-wrap: wrap; }
+  .game-page--theme2 .game__player { font-size: 16px; }
+}
+
+// In solo games the small final score widget displays pawns and points only.
+.game-page--theme2.game-page--single .game-end__scores #final-name-blue,
+.game-page--theme2.game-page--single .game-end__scores #final-name-orange { display: none; }

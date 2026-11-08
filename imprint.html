@@ -1,17 +1,34 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impressum</title>
+  <meta name="theme-color" content="#303131">
+  <title>Imprint – Memory</title>
+  <link rel="icon" type="image/svg+xml" href="/icons/controller.svg">
   <script type="module" src="/src/ts/main.ts"></script>
 </head>
-<body>
-  <header></header>
-  <main id="main-content">
-    <h1>Impressum</h1>
-    <!-- Erforderliche rechtliche Angaben vor Veröffentlichung ergänzen. -->
+<body class="imprint-page">
+  <main class="imprint" id="main-content">
+    <article class="imprint__content">
+      <h1>Imprint</h1>
+      <section aria-labelledby="imprint-details">
+        <h2 id="imprint-details">Provider information</h2>
+        <address>
+          Rouven Loske<br>
+          Hunoldstr. 52a<br>
+          31785 Hameln<br>
+          Germany
+        </address>
+        <p>Contact: <a href="mailto:mail@rouvenloske.de">mail@rouvenloske.de</a></p>
+      </section>
+      <section aria-labelledby="imprint-project">
+        <h2 id="imprint-project">About this project</h2>
+        <p>This website was created as part of my further training at Developer Akademie in Munich, Germany.</p>
+        <p>All rights to the design and icons belong to Developer Akademie.</p>
+      </section>
+      <a class="imprint__back" href="./index.html">Back to start</a>
+    </article>
   </main>
-  <footer></footer>
 </body>
 </html>

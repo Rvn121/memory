@@ -1,0 +1,12 @@
+// Settings uses Almarai, except the Settings heading which stays Red Rose.
+.settings-page {
+  font-family: 'Almarai', sans-serif;
+
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+
+  .settings__title {
+    font-family: 'Red Rose', sans-serif;
+  }
+}

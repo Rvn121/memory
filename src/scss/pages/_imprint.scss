@@ -1,0 +1,28 @@
+// Legal notice uses the same dark background and Red Rose as the landing page.
+.home__footer {
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 20px;
+  text-align: center;
+
+  a { color: #fff; font-size: 16px; text-underline-offset: 4px; }
+  a:hover, a:focus-visible { color: rgba(240, 234, 110, 1); }
+}
+
+.imprint-page { min-height: 100svh; background: rgba(48, 49, 49, 1); color: #fff; }
+.imprint {
+  display: grid;
+  min-height: 100svh;
+  padding: 48px 24px;
+  place-items: center;
+
+  &__content { width: min(100%, 720px); }
+  h1 { margin: 0 0 40px; font-size: clamp(40px, 6vw, 72px); }
+  h2 { margin: 30px 0 12px; font-size: clamp(22px, 3vw, 28px); }
+  p, address { font-size: 18px; line-height: 1.65; }
+  address { font-style: normal; }
+  a { color: rgba(240, 234, 110, 1); text-underline-offset: 4px; }
+  &__back { display: inline-block; margin-top: 28px; }
+}

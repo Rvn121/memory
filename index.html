@@ -11,19 +11,22 @@
 <body>
   <main class="home">
     <div class="home__container">
-      <img class="home__decoration" src="/icons/controller.svg" alt="" aria-hidden="true">
       <section class="home__intro" aria-labelledby="home-title">
+        <img class="home__decoration" src="/icons/controller.svg" alt="" aria-hidden="true">
         <div class="home__headline">
           <p class="home__eyebrow">It’s play time.</p>
           <h1 class="home__title" id="home-title">Ready to play?</h1>
         </div>
-        <button class="play-button" type="button" aria-label="Play Memory">
+        <a class="play-button" href="./settings.html" aria-label="Play Memory">
           <img class="play-button__controller" src="/icons/controller.svg" alt="" aria-hidden="true">
           <span class="play-button__label">Play</span>
           <span class="play-button__arrow" aria-hidden="true"></span>
-        </button>
+        </a>
       </section>
     </div>
+    <footer class="home__footer">
+      <a href="./imprint.html">Imprint</a>
+    </footer>
   </main>
 </body>
 </html>

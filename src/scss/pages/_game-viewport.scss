@@ -1,0 +1,141 @@
+// Fit the entire board within the visible viewport without horizontal scrolling.
+// Phone controls are below the board; the warning appears only if the board
+// or the bottom action is clipped.
+@media (max-width: 1439.98px), (max-height: 900px) {
+  .game__board {
+    --board-rows: 4;
+    --tile-ratio: 1;
+    --board-gap: clamp(3px, 0.7vmin, 8px);
+    --tile-width: min(
+      120px,
+      calc((100vw - 48px - (var(--board-columns) - 1) * var(--board-gap)) / var(--board-columns)),
+      calc((100svh - 218px - (var(--board-rows) - 1) * var(--board-gap)) / var(--board-rows) * var(--tile-ratio))
+    );
+    grid-template-columns: repeat(var(--board-columns), var(--tile-width));
+    grid-auto-rows: calc(var(--tile-width) / var(--tile-ratio));
+    gap: var(--board-gap);
+    margin: 12px auto 0;
+    max-width: calc(100vw - 24px);
+  }
+  .game__board--36 { --board-rows: 6; }
+  .memory-card,
+  .game-page--theme2 .memory-card {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: var(--tile-ratio);
+  }
+  .game-page--theme2 .game__board { --tile-ratio: 1.2; gap: var(--board-gap); }
+}
+
+// On smartphones the exit action belongs below the board, not in a second
+// header row. Keep every part of the playable scene in the visible screen.
+@media (max-width: 622px) {
+  .game {
+    min-height: 100svh;
+    padding: 8px 8px;
+  }
+  .game__container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(min-content, 1fr) auto auto;
+    grid-template-areas: 'scores' 'board' 'exit' 'message';
+    gap: 7px;
+    min-height: calc(100svh - 16px);
+    align-items: center;
+  }
+  .game__header {
+    grid-area: scores;
+    display: block;
+    min-height: 0;
+    margin: 0;
+    padding: 12px;
+  }
+  .game__scores {
+    grid-area: scores;
+    justify-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    min-height: 46px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 7px 9px;
+  }
+  .game__player { min-width: 0; font-size: clamp(16px, 3.8vw, 18px); }
+  .game__player--active { font-size: clamp(16px, 4.3vw, 20px); }
+  .game__player span { overflow-wrap: anywhere; }
+  .game__board {
+    grid-area: board;
+    --board-gap: clamp(3px, 0.9vw, 5px);
+    --tile-width: min(
+      120px,
+      calc((100vw - 16px - (var(--board-columns) - 1) * var(--board-gap)) / var(--board-columns)),
+      calc((100svh - 195px - (var(--board-rows) - 1) * var(--board-gap)) / var(--board-rows) * var(--tile-ratio))
+    );
+    margin: 0 auto;
+    align-self: center;
+  }
+  .game__exit {
+    grid-area: exit;
+    width: min(207px, 90%);
+    min-width: 0;
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 6px 12px;
+    justify-self: center;
+    font-size: 16px;
+  }
+  .game__message {
+    grid-area: message;
+    min-height: 18px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+  .game-page--theme2 .game__scores { flex-wrap: nowrap; }
+}
+
+// On very short landscape displays, use the vertical space efficiently too.
+@media (min-width: 623px) and (max-height: 520px) and (orientation: landscape) {
+  .game { padding-block: 5px; }
+  .game__header { min-height: 48px; padding: 5px 12px; }
+  .game__scores { min-height: 38px; padding: 4px 8px; }
+  .game__exit { min-height: 38px; height: 38px; font-size: 16px; }
+  .game__board {
+    --tile-width: min(
+      120px,
+      calc((100vw - 48px - (var(--board-columns) - 1) * var(--board-gap)) / var(--board-columns)),
+      calc((100svh - 125px - (var(--board-rows) - 1) * var(--board-gap)) / var(--board-rows) * var(--tile-ratio))
+    );
+    margin-top: 5px;
+  }
+  .game__message { margin-top: 4px; min-height: 16px; }
+}
+
+.game__orientation-hint {
+  position: fixed;
+  z-index: 12;
+  left: 16px;
+  right: 16px;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  margin: 0 auto;
+  max-width: 430px;
+  padding: 12px 16px;
+  border: 2px solid #4dd5bc;
+  border-radius: 12px;
+  background: #303131;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .3);
+}
+.game__orientation-hint[hidden] { display: none; }
+.game-page--theme2 .game__orientation-hint {
+  background: #f0f6f9;
+  border-color: #1e7594;
+  color: #1e7594;
+}

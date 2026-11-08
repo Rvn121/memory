@@ -15,6 +15,7 @@ $play-button-ink: rgba(48, 49, 49, 1);
   color: $play-button-ink;
   font: inherit;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 200ms ease;
 
   &__controller {

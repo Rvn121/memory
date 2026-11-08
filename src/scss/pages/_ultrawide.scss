@@ -1,0 +1,25 @@
+// Slightly upscale the application only on 4K-class desktop viewports.
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .home__container, .settings__container, .game__container { max-width: 1720px; }
+  .home__eyebrow { font-size: 56px; }
+  .home__title { font-size: 164px; }
+  .home__intro { gap: 72px; }
+  .play-button { transform: scale(1.14); }
+  .play-button:hover { transform: scale(1.23, 1.185); }
+
+  .settings__panel { grid-template-columns: minmax(0, 1300px); }
+  .settings__columns { grid-template-columns: minmax(0, 1fr) 520px; column-gap: 96px; min-height: 620px; }
+  .settings__title { font-size: 64px; }
+  .setting-group__heading { font-size: 28px; }
+  .setting-option { font-size: 23px; min-height: 42px; }
+  .settings__notice { font-size: 22px; }
+
+  .game__header { width: min(100%, 1450px); min-height: 118px; }
+  .game__scores { min-height: 72px; }
+  .game__player { font-size: 30px; }
+  .game__exit { width: 236px; height: 72px; font-size: 27px; }
+  .game__board { grid-template-columns: repeat(var(--board-columns), 140px); gap: 12px; margin-top: 26px; }
+  .memory-card { width: 140px; height: 140px; }
+  .game-page--theme2 .memory-card { width: 140px; height: 117px; }
+  .game__message { font-size: 22px; }
+}

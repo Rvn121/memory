@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#303131">
+  <title>Memory – Game</title>
+  <link rel="icon" type="image/svg+xml" href="/icons/controller.svg">
+  <script type="module" src="/src/ts/game.ts"></script>
+</head>
+<body class="game-page">
+  <main class="game" aria-label="Memory game">
+    <div class="game__container">
+      <header class="game__header">
+        <div class="game__scores" aria-label="Player scores">
+          <div class="game__player game__player--blue" id="player-blue">
+            <img src="/icons/playericon.svg" alt=""><span id="name-blue">Blue</span><output id="score-blue">0</output>
+          </div>
+          <div class="game__player game__player--orange" id="player-orange">
+            <img src="/icons/playericon.svg" alt=""><span id="name-orange">Orange</span><output id="score-orange">0</output>
+          </div>
+        </div>
+        <p class="game__turn game__turn--sr-only" id="turn-announcement" role="status" aria-live="polite"></p>
+        <button class="game__exit" type="button" id="exit-trigger"><img src="/icons/exit.svg" alt="">Exit game</button>
+      </header>
+      <section class="game__board" id="game-board" aria-label="Memory cards"></section>
+      <p class="game__message" id="game-message" aria-live="polite"></p>
+      <p class="game__orientation-hint" id="orientation-hint" role="status" hidden>Rotate your device to landscape to see and use the entire game board.</p>
+    </div>
+    <section class="game-start" id="game-start-dialog" role="status" aria-live="polite" hidden>
+      <div class="game-start__panel">
+        <p class="game-start__eyebrow">Starting player</p>
+        <div class="game-start__player">
+          <img class="game-start__icon" src="/icons/chess_pawn.svg" alt="">
+          <h2 id="game-start-name" class="game-start__name"></h2>
+        </div>
+        <p class="game-start__hint">Get ready to find the first pair!</p>
+      </div>
+    </section>
+    <section class="quit-dialog" id="quit-dialog" role="dialog" aria-modal="true" aria-labelledby="quit-title" hidden>
+      <div class="quit-dialog__panel">
+        <h2 id="quit-title">Are you sure you want to quit the game?</h2>
+        <div class="quit-dialog__actions">
+          <button class="quit-dialog__back" id="back-to-game" type="button">Back to game</button>
+          <button class="quit-dialog__exit" id="confirm-exit" type="button">Exit game</button>
+        </div>
+      </div>
+    </section>
+    <section class="game-end" id="game-end" aria-live="polite" hidden>
+      <div class="game-end__intro" id="game-end-intro">
+        <img class="game-end__headline" src="/icons/game-over.svg" alt="Game over">
+        <p class="game-end__score-label">Final score</p>
+        <div class="game-end__scores" aria-label="Final scores">
+          <span class="game-end__blue"><img src="/icons/playericon.svg" alt=""> <span id="final-name-blue">Blue</span> <output id="final-blue">0</output></span>
+          <span class="game-end__orange"><img src="/icons/playericon.svg" alt=""> <span id="final-name-orange">Orange</span> <output id="final-orange">0</output></span>
+        </div>
+      </div>
+      <div class="game-end__outcome" id="game-end-outcome" hidden>
+        <div class="game-end__confetti" id="game-end-confetti" aria-hidden="true"></div>
+        <div class="game-end__winner" id="game-end-winner" hidden>
+          <p class="game-end__winner-label">The winner is</p>
+          <h1 id="winner-name"></h1>
+          <img class="game-end__pawn" src="/icons/chess_pawn.svg" alt="Winning player">
+        </div>
+        <div class="game-end__draw" id="game-end-draw" hidden>
+          <p class="game-end__draw-label">It’s a</p>
+          <img class="game-end__draw-text" src="/img/DRAW_green.png" alt="DRAW">
+          <img class="game-end__scale" src="/img/Scale_Icon.png" alt="Scales symbolizing a tie">
+        </div>
+        <a href="./index.html" class="game-end__home">Back to start</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

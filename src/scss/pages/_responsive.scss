@@ -1,0 +1,208 @@
+// Mobile-first refinements across all three pages; original desktop dimensions remain intact.
+html { min-width: 320px; }
+body { max-width: 100%; overflow-x: clip; }
+button, a, input, label { -webkit-tap-highlight-color: transparent; }
+button, a, input { touch-action: manipulation; }
+
+@media (max-width: 1199.98px) {
+  .settings__columns { column-gap: 28px; }
+  .settings__panel { padding-inline: 24px; }
+}
+
+@media (max-width: 991.98px) {
+  .settings__columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+  .settings__title { font-size: clamp(38px, 5vw, 54px); }
+  .selection-summary { min-width: 0; max-width: 100%; flex-wrap: wrap; height: auto; min-height: 81px; }
+  .selection-summary__item { white-space: normal; overflow-wrap: anywhere; }
+  .setting-group__heading { font-size: 21px; }
+  .setting-option { font-size: 18px; }
+  .game__header { align-items: center; }
+  .game__scores { min-width: 0; max-width: calc(100% - 185px); }
+  .game__exit { width: 175px; font-size: 20px; }
+}
+
+@media (max-width: 767.98px) {
+  .settings { padding: 0; }
+  .settings__panel { min-height: 100svh; padding: 44px 22px 56px; }
+  .settings__columns { grid-template-columns: minmax(0, 1fr); gap: 38px; }
+  .settings__form { gap: 28px; }
+  .settings__visuals { width: min(100%, 460px); margin-inline: auto; }
+  .settings__title { margin-bottom: 42px; }
+  .setting-group { padding-left: 24px; }
+  .setting-option { min-height: 44px; }
+  .setting-option input[type='radio'], .setting-option input[type='checkbox'] { width: 20px; height: 20px; }
+  .player-mode__switch { min-width: 48px; min-height: 26px; }
+  .player-mode__switch input { width: 100%; height: 100%; }
+  .selection-summary { width: 100%; margin-top: 24px; }
+  .start-button { min-height: 53px; }
+  .settings__notice { position: static; margin-top: 16px; }
+  .game { padding: 20px 16px 44px; }
+  .game__header { min-height: 0; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+  .game__scores { max-width: 100%; min-height: 54px; }
+  .game__exit { margin-left: auto; min-height: 48px; }
+  .game__board { margin-top: 0; }
+  .game-end { overflow-y: auto; align-items: center; padding: 24px 16px; }
+  .game-end__outcome { min-height: 520px; gap: 20px; }
+  .game-end__confetti { left: 20px; right: 20px; height: min(280px, 42vh); }
+}
+
+@media (max-width: 575.98px) {
+  .home__container { padding: 32px 20px; }
+  .home__intro { width: min(100%, 400px); gap: 38px; }
+  .home__eyebrow { font-size: clamp(20px, 5vw, 26px); }
+  .home__title { font-size: clamp(36px, 10vw, 58px); overflow-wrap: normal; }
+  .home__decoration { top: 100%; left: -22%; width: 65%; }
+  .play-button { width: min(250px, 100%); min-height: 76px; height: 88px; }
+  .play-button__label { font-size: 36px; }
+
+  .settings__panel { padding-inline: 16px; }
+  .settings__title { font-size: 40px; }
+  .setting-group__heading { font-size: 20px; }
+  .setting-option { font-size: 17px; }
+  .setting-option--player .player-name-input { width: min(140px, 47vw); min-height: 44px; font-size: 17px; }
+  .setting-option--player::after { width: 22px; left: calc(100% + 5px); }
+  .selection-summary { justify-content: center; gap: 8px; padding: 12px 8px; font-size: 16px; }
+  .selection-summary__divider { width: 14px; height: 40px; }
+  .selection-summary--complete .selection-summary__divider { width: 20px; height: 40px; }
+  .start-button { width: 112px; min-width: 112px; }
+  .start-button:not(:disabled):hover { width: 112px; height: 53px; }
+
+  .game { padding: 14px 8px 40px; }
+  .game__header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .game__scores { width: fit-content; max-width: 100%; min-width: 0; padding: 8px; gap: 8px; }
+  .game__player { font-size: 16px; gap: 3px; }
+  .game__player--active { font-size: 18px; }
+  .game__player img { width: 16px; height: 16px; }
+  .game__exit { grid-column: 2; justify-self: end; min-width: 98px; width: auto; padding: 6px; font-size: 16px; }
+  .game__board { --card-size: min(120px, calc((100vw - 16px - (var(--board-columns) - 1) * 4px) / var(--board-columns))); gap: 4px; }
+  .game__message { font-size: 16px; }
+  .memory-card__face--back img { width: 50%; max-height: 48px; }
+  .quit-dialog { padding: 12px; overflow-y: auto; }
+  .quit-dialog__panel { min-height: 245px; max-height: calc(100dvh - 24px); overflow-y: auto; padding: 28px 14px; gap: 20px; }
+  .quit-dialog h2 { font-size: clamp(21px, 6vw, 28px); }
+  .quit-dialog__actions { gap: 8px; }
+  .quit-dialog__actions button { min-height: 52px; width: calc(50% - 4px); font-size: 16px; }
+  .game-end__score-label { margin-top: 32px; }
+  .game-end__scores { font-size: 16px; }
+  .game-end__winner-label { font-size: 27px; }
+  .game-end #winner-name { font-size: clamp(32px, 9vw, 50px); overflow-wrap: anywhere; }
+  .game-end__pawn { width: min(150px, 42vw); }
+  .game-end__confetti { left: 12px; right: 12px; }
+}
+
+@media (max-width: 399.98px) {
+  .setting-group__heading--players { flex-wrap: wrap; }
+  .player-mode { margin-left: 0; }
+  .game__header { grid-template-columns: 1fr; }
+  .game__scores { width: 100%; justify-content: center; }
+  .game__exit { grid-column: 1; }
+  .selection-summary { font-size: 16px; }
+  .selection-summary__divider { width: 12px; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .play-button:hover { transform: none; }
+  .play-button:hover .play-button__controller { transform: none; }
+  .play-button:hover .play-button__arrow { transform: none; background-image: url('/icons/arrow-thin.svg'); }
+  .play-button:active { transform: scale(.98); }
+  .setting-option:hover span::after { content: none; }
+  .setting-option:has(input:checked) span::after { content: ''; }
+  .setting-option--player:hover::after { opacity: 0; }
+  .setting-option--player:has(input[name='player']:checked)::after { opacity: 1; }
+  .start-button:not(:disabled):hover { transform: none; }
+  .start-button:not(:disabled):active, .game__exit:active, .game-end__home:active { filter: brightness(1.13); }
+  .memory-card { -webkit-user-select: none; user-select: none; touch-action: manipulation; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game__player--active { animation: none; font-weight: 700; text-decoration: underline; }
+  .quit-dialog__panel { animation: none; }
+}
+
+
+// Keep the player-mode toggle visible, including at narrow desktop widths.
+.setting-group__heading--players { flex-wrap: wrap; gap: 8px; }
+.player-mode { flex-shrink: 0; margin-left: 5px; }
+.player-mode__switch { flex: 0 0 48px; }
+
+// Requested intermediate breakpoint: narrow the right-hand settings column.
+@media (max-width: 1102px) and (min-width: 767px) {
+  .settings__columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    gap: 24px;
+  }
+  .settings__panel { padding-inline: 24px; }
+  .settings__visuals { align-self: start; }
+  .theme-preview { max-width: 340px; align-self: center; }
+}
+
+// Stack the summary from the first desktop breakpoint onward.
+@media (max-width: 1439.98px) {
+  .selection-summary {
+    align-self: center;
+    width: 100%;
+    min-width: 0;
+    margin-top: 24px;
+    padding: 14px 12px;
+    gap: 10px;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+  .selection-summary__item { text-align: center; }
+  .selection-summary__divider, .selection-summary--complete .selection-summary__divider {
+    transform: rotate(90deg);
+    height: 22px;
+  }
+  .start-button { align-self: center; }
+}
+
+// On phones, place the small preview immediately after Game themes.
+@media (max-width: 766px) {
+  .settings__panel { display: block; }
+  .settings__title { margin-inline: auto; }
+  .settings__columns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .settings__form, .settings__visuals { display: contents; }
+  .settings__form > .setting-group {
+    width: min(100%, 390px);
+    padding-left: 24px;
+    margin-bottom: 26px;
+  }
+  .settings__form > .setting-group:nth-child(1) { order: 1; }
+  .settings__form > .setting-group:nth-child(2) { order: 3; }
+  .settings__form > .setting-group:nth-child(3) { order: 4; }
+  .theme-preview {
+    order: 2;
+    width: min(100%, 310px);
+    margin: 0 auto 30px;
+  }
+  .selection-summary {
+    order: 5;
+    width: min(100%, 390px);
+    margin: 12px auto 0;
+    padding: 14px 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+  }
+  .selection-summary__divider, .selection-summary--complete .selection-summary__divider {
+    transform: rotate(90deg);
+    height: 22px;
+  }
+  .settings__notice { order: 6; position: static; text-align: center; }
+  .setting-group__heading--players { justify-content: flex-start; }
+  .setting-option--player .player-name-input { max-width: 140px; }
+  .game__header { min-height: 0; padding: 14px; }
+}
+
+@media (max-width: 575px) {
+  .settings__form > .setting-group { width: min(100%, 310px); }
+  .settings__title { font-size: 40px; }
+  .theme-preview { width: min(100%, 270px); }
+  .game__header { padding: 12px 8px; }
+}

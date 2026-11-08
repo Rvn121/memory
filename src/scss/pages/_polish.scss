@@ -1,0 +1,124 @@
+// Final responsive and interaction adjustments (both themes).
+// Use transform for hover animations: surrounding elements keep their reserved space.
+.start-button {
+  transition: transform 180ms ease, background 180ms ease;
+  &:not(:disabled):hover { width: 126px; height: 53px; transform: scale(1.08); }
+}
+@media (max-width: 575.98px) {
+  .start-button:not(:disabled):hover { width: 112px; height: 53px; transform: scale(1.06); }
+}
+
+// Scale the entire home control, including the icon and label, on narrow screens.
+@media (max-width: 575.98px) {
+  .play-button { width: clamp(172px, 52vw, 250px); height: clamp(68px, 19vw, 98px); min-height: 0; gap: clamp(7px, 2vw, 12px); }
+  .play-button__controller { width: clamp(30px, 8vw, 44px); height: auto; aspect-ratio: 44 / 32; }
+  .play-button__label { font-size: clamp(26px, 7vw, 40px); }
+  .play-button__arrow { width: clamp(22px, 6vw, 33px); }
+}
+
+// Name fields have a clean text-input appearance, rather than radio-button styling.
+.setting-option .player-name-input {
+  appearance: auto;
+  border-radius: 3px;
+  background: #fff;
+  background-image: none;
+  cursor: text;
+}
+.setting-option .player-name-input:focus { background-image: none; }
+
+// Stacked summary: diagonals run from top-right to bottom-left, diamond at bottom-left.
+@media (max-width: 1439.98px) {
+  .selection-summary__divider,
+  .selection-summary--complete .selection-summary__divider {
+    width: 37px;
+    height: 60px;
+    transform: none;
+    background-image: url('/icons/line_down.svg');
+  }
+  .selection-summary__item { display: flex; align-items: center; justify-content: center; gap: 12px; text-align: center; overflow-wrap: normal; word-break: normal; }
+  .selection-summary__item::after {
+    display: none;
+    flex: none;
+    width: 50px;
+    height: 18px;
+    background: url('/icons/menuline.svg') center / contain no-repeat;
+    content: '';
+  }
+  .selection-summary__item--selected::after { display: block; }
+}
+@media (max-width: 399.98px) {
+  .selection-summary__item { gap: 8px; }
+  .selection-summary__item::after { width: 30px; }
+}
+
+// At phone widths move the exit control below the two widely spaced scores.
+@media (max-width: 400px) {
+  .game__header { display: flex; flex-direction: column; align-items: stretch; }
+  .game__scores { max-width: 100%; width: 100%; justify-content: space-between; }
+  .game__exit { align-self: center; margin: 0 auto; justify-self: center; }
+}
+
+// On mobile the backdrop leaves more horizontal breathing room and the dialog is shorter.
+@media (max-width: 575.98px) {
+  .quit-dialog { padding: 16px 24px; }
+  .quit-dialog__panel { min-height: 0; padding: 24px 14px; gap: 25px; }
+}
+
+// The first-player announcement blocks inputs for exactly two seconds.
+.game-start {
+  position: fixed; inset: 0; z-index: 19; display: grid; place-items: center;
+  padding: 24px; background: rgba(0, 0, 0, .53);
+  &[hidden] { display: none; }
+  &__panel {
+    width: min(440px, 100%); padding: 34px 18px; text-align: center;
+    background: #fff; color: #303131; border-radius: 14px;
+    animation: quit-float-in 360ms cubic-bezier(.2, .7, .2, 1) both;
+  }
+  p { margin: 0 0 12px; font-size: 22px; }
+  &__name { margin: 0; font-size: clamp(28px, 7vw, 42px); overflow-wrap: anywhere; }
+  &__name--blue { color: #2bb1ff; }
+  &__name--orange { color: #f58e39; }
+}
+.game-page--theme2 .game-start__panel { background: #f0f6f9; color: #1e7594; }
+.game-page--theme2 .game-start__name--blue { color: #097fc5; }
+.game-page--theme2 .game-start__name--orange { color: #ea6900; }
+
+// Theme 2-specific details.
+.game-page--theme2 {
+  .game__exit img { filter: brightness(0) saturate(100%) invert(37%) sepia(58%) saturate(914%) hue-rotate(150deg) brightness(92%); }
+  .game__exit:hover img { filter: brightness(0) invert(1) drop-shadow(3px 3px 5px rgba(47, 46, 46, .2)); }
+  .quit-dialog__back { border: 0; }
+  .quit-dialog__back:hover { border: 0; }
+  .memory-card__face--front img { width: min(70px, 70%); height: auto; aspect-ratio: 70 / 65; object-fit: contain; }
+}
+@media (hover: none), (pointer: coarse) {
+  .start-button:not(:disabled):hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-start__panel { animation: none; }
+}
+
+// Starting-player notice: theme-aware, responsive, and with no layout shifts.
+.game-start__panel {
+  width: min(480px, 100%);
+  padding: clamp(25px, 5vw, 42px) 22px;
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .24);
+}
+.game-start__eyebrow { font-size: clamp(17px, 3.5vw, 22px); font-weight: 700; }
+.game-start__player { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.game-start__icon { width: 42px; height: 48px; flex: 0 0 auto; }
+.game-start__player:has(.game-start__name--blue) .game-start__icon {
+  filter: brightness(0) saturate(100%) invert(59%) sepia(96%) saturate(1633%) hue-rotate(169deg);
+}
+.game-start__player:has(.game-start__name--orange) .game-start__icon {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(61%) saturate(2010%) hue-rotate(332deg);
+}
+.game-start .game-start__hint { margin: 16px 0 0; font-size: 16px; }
+.game-page--theme2 .game-start__hint { color: #1e7594; }
+@media (max-width: 400px) {
+  .game-start__panel { padding: 26px 16px; }
+  .game-start__player { gap: 8px; }
+  .game-start__icon { width: 32px; height: 37px; }
+  .game-start .game-start__hint { font-size: 16px; }
+}

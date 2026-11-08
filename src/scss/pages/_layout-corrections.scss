@@ -1,0 +1,58 @@
+// Center the headline group and align both lines at the same left edge.
+.home__intro {
+  width: min(100%, 1440px);
+  align-items: center;
+}
+.home__headline { width: fit-content; max-width: 100%; text-align: left; }
+.home__title { overflow-wrap: normal; text-wrap: balance; }
+
+// Scale the complete Play control before the small-phone breakpoint is reached.
+@media (max-width: 991.98px) {
+  .play-button {
+    width: clamp(190px, 28vw, 250px);
+    height: clamp(74px, 11vw, 98px);
+    gap: clamp(7px, 1.3vw, 12px);
+  }
+  .play-button__controller { width: clamp(32px, 4.8vw, 44px); height: auto; }
+  .play-button__label { font-size: clamp(29px, 4.4vw, 40px); }
+  .play-button__arrow { width: clamp(23px, 3.6vw, 33px); }
+}
+@media (max-width: 575.98px) {
+  .home__intro { width: 100%; }
+  .home__title { font-size: clamp(32px, 9vw, 58px); }
+  .play-button {
+    width: clamp(164px, 52vw, 210px);
+    height: clamp(66px, 19vw, 82px);
+  }
+  .play-button__controller { width: clamp(28px, 8vw, 37px); }
+  .play-button__label { font-size: clamp(25px, 7vw, 34px); }
+  .play-button__arrow { width: clamp(21px, 6vw, 28px); }
+}
+
+// Keep a minimum inner margin around the right-hand settings action on desktops.
+@media (min-width: 1103px) and (max-width: 1439.98px) {
+  .settings__panel { padding-right: 36px; }
+  .settings__visuals { padding-right: 10px; box-sizing: border-box; }
+  .selection-summary { max-width: 100%; box-sizing: border-box; }
+}
+
+// In stacked settings, only the decorative line next to each label is displayed.
+@media (max-width: 1439.98px) {
+  .selection-summary__divider,
+  .selection-summary--complete .selection-summary__divider {
+    display: none;
+  }
+}
+
+// Reserve footer space and compact the start screen on very short viewports.
+@media (max-height: 260px) {
+  .home__container { min-height: calc(100svh - 44px); padding: 12px 20px; }
+  .home__intro { gap: 12px; }
+  .home__eyebrow { margin-bottom: 6px; font-size: 20px; }
+  .home__title { font-size: clamp(28px, min(9vw, 16svh), 40px); }
+  .home .play-button { width: 160px; height: 44px; gap: 8px; }
+  .home .play-button__label { font-size: 24px; }
+  .home .play-button__controller { width: 28px; height: 22px; }
+  .home .play-button__arrow { width: 22px; }
+  .home__footer { position: static; padding: 12px 20px; }
+}
