@@ -1,4 +1,4 @@
-// Settings uses Almarai, except the Settings heading which stays Red Rose.
+// Settings uses Almarai, with Red Rose for the heading and start button.
 .settings-page {
   font-family: 'Almarai', sans-serif;
 
@@ -6,7 +6,7 @@
     font-family: inherit;
   }
 
-  .settings__title {
+  .settings__title, .start-button {
     font-family: 'Red Rose', sans-serif;
   }
 }
