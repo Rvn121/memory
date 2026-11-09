@@ -147,10 +147,13 @@ $orange: rgba(245, 142, 57, 1);
   &__scale { display: block; width: min(290px, 55vw); height: auto; margin-top: 22px; }
   &__home {
     position: relative; z-index: 2; display: grid; place-items: center; min-width: 207px; min-height: 62px;
-    padding: 8px 14px; color: #fff; border: 1px solid #4dd5bc;
-    background: rgba(134, 233, 214, .2); font-size: 24px; font-weight: 700;
-    text-decoration: none; transition: background 180ms ease;
-    &:hover { background: rgba(134, 233, 214, .34); }
+    padding: 8px 14px; color: #fff; border: 2px solid #4dd5bc;
+    background: rgba(134, 233, 214, .14); font-size: 24px; font-weight: 700;
+    text-decoration: none; transition: background 180ms ease, box-shadow 180ms ease;
+    &:hover {
+      background: rgba(134, 233, 214, .26);
+      box-shadow: 4px 4px 6px 0 rgba(77, 213, 188, .2);
+    }
     &:focus-visible { outline: 3px solid #f0ea6e; outline-offset: 3px; }
   }
 }
@@ -179,7 +182,7 @@ $orange: rgba(245, 142, 57, 1);
 
 
 // Unified outlined controls; keep border thickness inside the existing footprint.
-.game__exit, .game-end__home, .quit-dialog__exit {
+.game__exit, .quit-dialog__exit {
   box-sizing: border-box;
   background: rgba(134, 233, 214, .14);
   border: 2px solid rgba(77, 213, 188, 1);

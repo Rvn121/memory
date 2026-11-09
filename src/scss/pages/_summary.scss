@@ -15,21 +15,22 @@
 
 @media (max-width: 1439.98px) {
   .selection-summary__item {
-    display: grid;
-    grid-template-columns: max-content 50px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     gap: 12px;
     min-height: 24px;
   }
+  // Center the visible text and marker together without changing the container size.
+  .selection-summary__item::before { display: none; }
   .selection-summary__item::after {
-    display: block;
-    grid-area: 1 / 2;
+    display: none;
     width: 50px;
-    visibility: hidden;
   }
-  .selection-summary__item--selected::after { visibility: visible; }
+  .selection-summary__item--selected::after { display: block; }
 }
 
 @media (max-width: 399.98px) {
-  .selection-summary__item { grid-template-columns: max-content 30px; gap: 8px; }
+  .selection-summary__item { gap: 8px; }
   .selection-summary__item::after { width: 30px; }
 }
