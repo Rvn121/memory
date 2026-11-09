@@ -3,6 +3,7 @@ import { createState, findKnownMatch, findKnownPair, findUnknownCard, hasWinner,
 import type { Card, GameState, Player } from './game/types';
 import { showGameEnd } from './game/end-screen';
 import { setupGameLayout } from './game/layout';
+import { renderCard } from './templates/game';
 
 const SETTINGS = loadSettings();
 const BOARD = document.querySelector<HTMLElement>('#game-board')!;
@@ -12,32 +13,17 @@ const END_SCREEN = document.querySelector<HTMLElement>('#game-end')!;
 const START_DIALOG = document.querySelector<HTMLElement>('#game-start-dialog')!;
 const START_NAME = document.querySelector<HTMLElement>('#game-start-name')!;
 const ORIENTATION_HINT = document.querySelector<HTMLElement>('#orientation-hint')!;
-const ASSET_ROOT = import.meta.env.BASE_URL;
 const COMPUTER_PAUSE = 850;
 const FLIP_PAUSE = 1050;
 let currentRun = 0;
 let state: GameState;
 
 /**
- * Builds the card button markup with both animated faces.
- */
-function renderCard(card: Card): string {
-  let theme = 'theme1/t1';
-  if (SETTINGS.theme === 'da-projects') theme = 'theme2/t2';
-  const face = `${ASSET_ROOT}icons/${theme}-${card.motif}.svg`;
-  return `<button class="memory-card" type="button" data-id="${card.id}" aria-label="Hidden card ${card.id + 1}">
-    <span class="memory-card__inner"><span class="memory-card__face memory-card__face--back">
-    <img src="${ASSET_ROOT}icons/logo_developer-akademie.png" alt=""></span>
-    <span class="memory-card__face memory-card__face--front"><img src="${face}" alt=""></span></span></button>`;
-}
-
-
-/**
  * Renders all cards with the selected board size.
  */
 function renderBoard(): void {
   BOARD.className = `game__board game__board--${state.cards.length}`;
-  BOARD.innerHTML = state.cards.map(renderCard).join('');
+  BOARD.innerHTML = state.cards.map(/** Builds a card using the selected theme. */ (card) => renderCard(card, SETTINGS.theme)).join('');
   requestAnimationFrame(updateOrientationHint);
 }
 
@@ -89,6 +75,7 @@ function updateScoreboard(): void {
 }
 
 
+/** Announces the current turn to assistive technology. */
 function updateTurnAnnouncement(): void {
   let announcement = `${state.names[state.current]}'s turn`;
   if (isComputerTurn()) announcement = 'Computer turn';
@@ -139,7 +126,7 @@ function flipCard(id: number): void {
  * Makes sure delayed actions never affect a newly restarted game.
  */
 function sleep(duration: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, duration));
+  return new Promise(/** Resolves the pause after the requested duration. */ (resolve) => setTimeout(resolve, duration));
 }
 
 
@@ -153,7 +140,7 @@ async function evaluatePair(runId: number): Promise<void> {
   if (state.runId !== runId) return;
   while (state.paused && state.runId === runId) await sleep(100);
   if (state.runId !== runId) return;
-  const [first, second] = state.flipped.map((id) => state.cards[id]);
+  const [first, second] = state.flipped.map(/** Looks up the card for a flipped position. */ (id) => state.cards[id]);
   if (first.motif === second.motif) awardPair(first, second);
   else hidePair(first, second);
   state.flipped = [];
@@ -203,7 +190,7 @@ function finishGame(): void {
   state.finished = true;
   updateView();
   const runId = state.runId;
-  showGameEnd(state, () => state.runId === runId);
+  showGameEnd(state, /** Rejects delayed results from an earlier game. */ () => state.runId === runId);
 }
 
 
@@ -268,6 +255,7 @@ function handleQuitKeys(event: KeyboardEvent): void {
 }
 
 
+/** Keeps keyboard focus inside the visible quit dialog. */
 function trapQuitFocus(event: KeyboardEvent): void {
   const controls = Array.from(QUIT_DIALOG.querySelectorAll<HTMLButtonElement>('button'));
   let target = controls[controls.length - 1];
@@ -297,7 +285,7 @@ function pickComputerCard(): number | undefined {
  * Sometimes chooses blindly instead of using remembered card positions.
  */
 function findRandomCard(): number | undefined {
-  const available = state.cards.filter((card) => !card.matched && !card.faceUp);
+  const available = state.cards.filter(/** Keeps cards available for another flip. */ (card) => !card.matched && !card.faceUp);
   return available[Math.floor(Math.random() * available.length)]?.id;
 }
 
@@ -355,7 +343,7 @@ function initGame(): void {
   BOARD.addEventListener('click', handleCardClick);
   document.querySelector<HTMLButtonElement>('#exit-trigger')?.addEventListener('click', openQuitDialog);
   document.querySelector<HTMLButtonElement>('#back-to-game')?.addEventListener('click', closeQuitDialog);
-  document.querySelector<HTMLButtonElement>('#confirm-exit')?.addEventListener('click', () => { window.location.href = './settings.html'; });
+  document.querySelector<HTMLButtonElement>('#confirm-exit')?.addEventListener('click', /** Returns to the settings page after confirmation. */ () => { window.location.href = './settings.html'; });
   QUIT_DIALOG.addEventListener('click', handleQuitBackdrop);
   document.addEventListener('keydown', handleQuitKeys);
   window.addEventListener('resize', updateOrientationHint);

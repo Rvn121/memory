@@ -42,8 +42,8 @@ $orange: rgba(245, 142, 57, 1);
   &__face--back img { display: block; place-self: center; width: 50%; height: 40%; object-fit: contain; opacity: .2; }
   &__face--front { background: rgba(232, 243, 240, 1); border: 0; transform: rotateY(180deg); }
   &__face--front img { display: block; width: min(70px, 88%); height: min(70px, 88%); object-fit: contain; }
-  &.is-matched { cursor: default; }
-  &:disabled { cursor: default; }
+  &.is-matched { cursor: pointer; }
+  &:disabled { cursor: pointer; }
 }
 
 .game-over {

@@ -14,10 +14,10 @@
       <header class="game__header">
         <div class="game__scores" aria-label="Player scores">
           <div class="game__player game__player--blue" id="player-blue">
-            <img src="/icons/playericon.svg" alt=""><span id="name-blue">Blue</span><output id="score-blue">0</output>
+            <img src="/icons/playericon.svg" alt="Blue player"><span id="name-blue">Blue</span><output id="score-blue">0</output>
           </div>
           <div class="game__player game__player--orange" id="player-orange">
-            <img src="/icons/playericon.svg" alt=""><span id="name-orange">Orange</span><output id="score-orange">0</output>
+            <img src="/icons/playericon.svg" alt="Orange player"><span id="name-orange">Orange</span><output id="score-orange">0</output>
           </div>
         </div>
         <p class="game__turn game__turn--sr-only" id="turn-announcement" role="status" aria-live="polite"></p>
@@ -51,8 +51,8 @@
         <img class="game-end__headline" src="/icons/game-over.svg" alt="Game over">
         <p class="game-end__score-label">Final score</p>
         <div class="game-end__scores" aria-label="Final scores">
-          <span class="game-end__blue"><img src="/icons/playericon.svg" alt=""> <span id="final-name-blue">Blue</span> <output id="final-blue">0</output></span>
-          <span class="game-end__orange"><img src="/icons/playericon.svg" alt=""> <span id="final-name-orange">Orange</span> <output id="final-orange">0</output></span>
+          <span class="game-end__blue"><img src="/icons/playericon.svg" alt="Blue player"> <span id="final-name-blue">Blue</span> <output id="final-blue">0</output></span>
+          <span class="game-end__orange"><img src="/icons/playericon.svg" alt="Orange player"> <span id="final-name-orange">Orange</span> <output id="final-orange">0</output></span>
         </div>
       </div>
       <div class="game-end__outcome" id="game-end-outcome" hidden>
@@ -60,11 +60,11 @@
         <div class="game-end__winner" id="game-end-winner" hidden>
           <p class="game-end__winner-label">The winner is</p>
           <h1 id="winner-name"></h1>
-          <img class="game-end__pawn" src="/icons/chess_pawn.svg" alt="Winning player">
+          <img class="game-end__pawn" src="/icons/chess_pawn.svg" alt="Pawn representing the winning player">
         </div>
         <div class="game-end__draw" id="game-end-draw" hidden>
           <p class="game-end__draw-label">It’s a</p>
-          <img class="game-end__draw-text" src="/img/DRAW_green.png" alt="DRAW">
+          <img class="game-end__draw-text" src="/img/DRAW_green.png" alt="Draw">
           <img class="game-end__scale" src="/img/Scale_Icon.png" alt="Scales symbolizing a tie">
         </div>
         <a href="./index.html" class="game-end__home">Back to start</a>

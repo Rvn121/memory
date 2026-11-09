@@ -3,3 +3,5 @@
 *::after { box-sizing: border-box; }
 body { margin: 0; }
 img, video, svg { max-width: 100%; }
+
+button, [role="button"] { cursor: pointer; }

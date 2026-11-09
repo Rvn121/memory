@@ -16,6 +16,7 @@ export function loadSettings(): GameSettings {
 }
 
 
+/** Validates stored selections before applying them to a new game. */
 function readStoredSettings(data: Partial<GameSettings>): GameSettings {
   const settings = defaultSettings();
   const board = Number(data.board);
@@ -66,9 +67,9 @@ export function shuffle<T>(items: T[]): T[] {
  * Creates the randomly chosen and duplicated card motifs.
  */
 export function createCards(size: number): Card[] {
-  const choices = shuffle(Array.from({ length: 18 }, (_, i) => i + 1)).slice(0, size / 2);
+  const choices = shuffle(Array.from({ length: 18 }, /** Converts a zero-based index to a motif number. */ (_, i) => i + 1)).slice(0, size / 2);
   const pairs = shuffle([...choices, ...choices]);
-  return pairs.map((motif, id) => ({ id, motif, matched: false, faceUp: false }));
+  return pairs.map(/** Creates an initially hidden, unmatched card. */ (motif, id) => ({ id, motif, matched: false, faceUp: false }));
 }
 
 
@@ -102,7 +103,7 @@ export function otherPlayer(player: Player): Player {
  * Returns true if the score lead can no longer be caught.
  */
 export function hasWinner(state: GameState): boolean {
-  const remaining = state.cards.filter((card) => !card.matched).length / 2;
+  const remaining = state.cards.filter(/** Keeps pairs that have not yet been found. */ (card) => !card.matched).length / 2;
   return Math.abs(state.scores.blue - state.scores.orange) > remaining || remaining === 0;
 }
 
@@ -141,8 +142,8 @@ export function findKnownMatch(state: GameState): number | undefined {
  * Picks a random facedown card, preferring cards not seen before.
  */
 export function findUnknownCard(state: GameState): number | undefined {
-  const candidates = state.cards.filter((card) => !card.matched && !card.faceUp);
-  const unknown = candidates.filter((card) => !state.seen.has(card.id));
+  const candidates = state.cards.filter(/** Keeps cards available for another flip. */ (card) => !card.matched && !card.faceUp);
+  const unknown = candidates.filter(/** Keeps cards the computer has not seen. */ (card) => !state.seen.has(card.id));
   if (unknown.length > 0) return shuffle(unknown)[0]?.id;
   return shuffle(candidates)[0]?.id;
 }

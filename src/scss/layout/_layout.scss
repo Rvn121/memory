@@ -1,6 +1,0 @@
-@use '../abstracts/variables' as *;
-.content-wrapper {
-  width: min(100% - 2rem, $content-max-width);
-  margin-inline: auto;
-}
-// Header/footer can use full viewport backgrounds with constrained inner content.

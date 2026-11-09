@@ -1,3 +1,4 @@
+import { renderConfettiPiece } from '../templates/game';
 import type { GameState, Player } from './types';
 
 const ROOT = import.meta.env.BASE_URL;
@@ -18,12 +19,11 @@ function updateFinalScores(state: GameState): void {
  */
 function renderConfetti(): void {
   const panel = document.querySelector<HTMLElement>('#game-end-confetti')!;
-  panel.innerHTML = Array.from({ length: CONFETTI_COUNT }, (_, i) => {
-    const x = (i + Math.random() * 0.65) / CONFETTI_COUNT * 94;
-    const y = Math.random() * 32;
-    const rotation = Math.round(Math.random() * 110 - 55);
-    return `<img src="${ROOT}img/confetti-${i % 8 + 1}.png" alt="" style="left:${x}%;top:${y}%;transform:rotate(${rotation}deg)">`;
-  }).join('');
+  panel.replaceChildren();
+  for (let index = 0; index < CONFETTI_COUNT; index++) {
+    const image = renderConfettiPiece(index, CONFETTI_COUNT);
+    panel.append(image);
+  }
 }
 
 
@@ -68,10 +68,11 @@ export function showGameEnd(state: GameState, runValid: () => boolean): void {
   document.querySelector<HTMLElement>('#game-end')!.hidden = false;
   document.querySelector<HTMLElement>('#game-end-intro')!.hidden = false;
   document.querySelector<HTMLElement>('#game-end-outcome')!.hidden = true;
-  window.setTimeout(() => revealOutcome(state, runValid), RESULT_DELAY);
+  window.setTimeout(/** Reveals the result after the game-over delay. */ () => revealOutcome(state, runValid), RESULT_DELAY);
 }
 
 
+/** Selects endscreen artwork for the active game theme. */
 function updateEndImages(): void {
   const secondTheme = sessionStorage.getItem('memory-settings')?.includes('da-projects');
   let headline = 'game-over';

@@ -20,10 +20,10 @@ const SETTINGS: Selections = { theme: '', player: '', board: '' };
 function showPreview(theme: string): void {
   if (!PREVIEW) return;
   let filename = 'theme1_preview.png';
-  PREVIEW.alt = 'Preview of Code vibes theme';
+  PREVIEW.alt = 'Code vibes theme: dark game board with a turquoise card back and a Git symbol card';
   if (theme === 'theme2') {
     filename = 'theme2_preview.png';
-    PREVIEW.alt = 'Preview of DA Projects theme';
+    PREVIEW.alt = 'DA Projects theme: light blue game board with a teal card back and a shark card';
   }
   PREVIEW.src = `${import.meta.env.BASE_URL}img/${filename}`;
 }
@@ -68,13 +68,15 @@ function getSummaryText(name: SettingName): string {
 }
 
 
+/** Returns the selected theme label or the initial prompt. */
 function getThemeSummary(): string {
   if (SETTINGS.theme === 'da-projects') return 'DA Projects theme';
   if (SETTINGS.theme) return 'Code vibes theme';
-  return 'Theme';
+  return 'Game theme';
 }
 
 
+/** Describes the chosen player color or multiplayer mode. */
 function getPlayerSummary(): string {
   if (getPlayerMode() === '2P') {
     if (hasValidPlayers()) return '2 Players';
@@ -98,12 +100,14 @@ function updateSummary(): void {
 }
 
 
+/** Updates one summary value without replacing its reserved layout. */
 function updateSummaryItem(name: SettingName): void {
   const label = document.querySelector<HTMLElement>(`#summary-${name}`);
   if (!label) return;
   let selected = Boolean(SETTINGS[name]);
   if (name === 'player') selected = hasValidPlayers();
-  label.textContent = getSummaryText(name);
+  const value = label.querySelector<HTMLElement>('.selection-summary__value');
+  if (value) value.textContent = getSummaryText(name);
   label.classList.toggle('selection-summary__item--selected', selected);
 }
 
@@ -115,16 +119,17 @@ function updatePlayerMode(): void {
   const twoPlayers = getPlayerMode() === '2P';
   COLOR_OPTIONS?.classList.toggle('player-options--two', twoPlayers);
   const inputs = COLOR_OPTIONS?.querySelectorAll<HTMLInputElement>('input[name="player"]') || [];
-  inputs.forEach((input) => {
+  inputs.forEach(/** Selects radio or checkbox behavior for the player mode. */ (input) => {
     input.type = 'radio';
     if (twoPlayers) input.type = 'checkbox';
   });
-  inputs.forEach((input) => updatePlayerColor(input, twoPlayers));
+  inputs.forEach(/** Applies the current mode to one color control. */ (input) => updatePlayerColor(input, twoPlayers));
   updatePlayerNameFields(twoPlayers);
   updateSummary();
 }
 
 
+/** Keeps color controls consistent with the selected player mode. */
 function updatePlayerColor(input: HTMLInputElement, twoPlayers: boolean): void {
   input.checked = twoPlayers || SETTINGS.player === input.value;
   input.disabled = twoPlayers;
@@ -136,13 +141,13 @@ function updatePlayerColor(input: HTMLInputElement, twoPlayers: boolean): void {
  * Uses native name validation only for two human players.
  */
 function updatePlayerNameFields(twoPlayers: boolean): void {
-  [FIRST_NAME, SECOND_NAME].forEach((input) => {
+  [FIRST_NAME, SECOND_NAME].forEach(/** Enables name entry only for two human players. */ (input) => {
     if (!input) return;
     input.hidden = !twoPlayers;
     input.disabled = !twoPlayers;
     input.required = twoPlayers;
   });
-  document.querySelectorAll<HTMLElement>('.player-name-label').forEach((label) => {
+  document.querySelectorAll<HTMLElement>('.player-name-label').forEach(/** Shows name labels only in multiplayer mode. */ (label) => {
     label.hidden = !twoPlayers;
   });
 }
@@ -178,13 +183,13 @@ function restorePreview(): void {
  * Connects the preview changes to the theme labels.
  */
 function setupPreviews(): void {
-  document.querySelectorAll<HTMLElement>('[data-preview]').forEach((option) => {
+  document.querySelectorAll<HTMLElement>('[data-preview]').forEach(/** Connects preview interactions for one theme option. */ (option) => {
     const previewName = option.dataset.preview || 'theme1';
-    option.addEventListener('mouseenter', () => showPreview(previewName));
+    option.addEventListener('mouseenter', /** Shows the preview associated with this theme option. */ () => showPreview(previewName));
     option.addEventListener('mouseleave', restorePreview);
-    option.addEventListener('focusin', () => showPreview(previewName));
+    option.addEventListener('focusin', /** Shows the preview associated with this theme option. */ () => showPreview(previewName));
     option.addEventListener('focusout', restorePreview);
-    option.addEventListener('pointerdown', () => showPreview(previewName));
+    option.addEventListener('pointerdown', /** Shows the preview associated with this theme option. */ () => showPreview(previewName));
   });
 }
 
@@ -207,7 +212,7 @@ function initSettings(): void {
   FORM?.addEventListener('change', handleSelection);
   FORM?.addEventListener('input', updateSummary);
   MODE_INPUT?.addEventListener('change', updatePlayerMode);
-  FORM?.addEventListener('submit', (event: SubmitEvent) => {
+  FORM?.addEventListener('submit', /** Starts the game without submitting the page. */ (event: SubmitEvent) => {
     event.preventDefault();
     startGame();
   });

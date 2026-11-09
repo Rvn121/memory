@@ -219,7 +219,7 @@ $muted: rgba(246, 246, 246, 1);
   img { flex: none; width: 20px; height: 16px; transition: width 180ms ease, height 180ms ease, transform 180ms ease; }
   &:not(:disabled):hover img { width: 25px; height: 20px; transform: rotate(-5.33deg); }
   &:not(:disabled):hover { width: 139.66px; height: 60.66px; }
-  &:disabled { background: #dededb; color: #a7a7a7; cursor: not-allowed; }
+  &:disabled { background: #dededb; color: #a7a7a7; cursor: pointer; }
   &:disabled img { opacity: .3; }
   &:focus-visible { outline: 3px solid $ink; outline-offset: 4px; }
 }

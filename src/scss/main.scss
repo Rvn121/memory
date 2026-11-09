@@ -1,9 +1,6 @@
 @use 'base/reset';
 @use 'base/typography';
-@use 'layout/layout';
 @use 'components/button';
-@use 'components/card';
-@use 'components/form';
 @use 'pages/home';
 @use 'pages/settings';
 
@@ -21,3 +18,5 @@
 
 @use 'pages/layout-corrections';
 @use 'pages/game-viewport';
+
+@use 'pages/summary';
