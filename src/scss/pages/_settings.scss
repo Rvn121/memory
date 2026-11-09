@@ -312,7 +312,6 @@ $muted: rgba(246, 246, 246, 1);
 @media (max-width: 400px) {
   .setting-group__heading--players { flex-wrap: wrap; }
   .player-mode { margin-left: 0; }
-  .setting-option--player::after { width: 22px; left: calc(100% + 4px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .player-mode__track, .player-mode__track::after { transition: none; }

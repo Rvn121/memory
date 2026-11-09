@@ -60,7 +60,6 @@ button, a, input { touch-action: manipulation; }
   .setting-group__heading { font-size: 20px; }
   .setting-option { font-size: 17px; }
   .setting-option--player .player-name-input { width: min(140px, 47vw); min-height: 44px; font-size: 17px; }
-  .setting-option--player::after { width: 22px; left: calc(100% + 5px); }
   .selection-summary { justify-content: center; gap: 8px; padding: 12px 8px; font-size: 16px; }
   .selection-summary__divider { width: 14px; height: 40px; }
   .selection-summary--complete .selection-summary__divider { width: 20px; height: 40px; }
