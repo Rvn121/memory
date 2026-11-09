@@ -74,7 +74,6 @@ button, a, input { touch-action: manipulation; }
   .game__player img { width: 16px; height: 16px; }
   .game__exit { grid-column: 2; justify-self: end; min-width: 98px; width: auto; padding: 6px; font-size: 16px; }
   .game__board { --card-size: min(120px, calc((100vw - 16px - (var(--board-columns) - 1) * 4px) / var(--board-columns))); gap: 4px; }
-  .game__message { font-size: 16px; }
   .memory-card__face--back img { width: 50%; max-height: 48px; }
   .quit-dialog { padding: 12px; overflow-y: auto; }
   .quit-dialog__panel { min-height: 245px; max-height: calc(100dvh - 24px); overflow-y: auto; padding: 28px 14px; gap: 20px; }

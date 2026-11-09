@@ -28,7 +28,6 @@ $orange: rgba(245, 142, 57, 1);
   &__board { display: grid; grid-template-columns: repeat(var(--board-columns), 120px); justify-content: center; gap: 8px; width: max-content; max-width: 100%; margin: 16px auto 0; }
   &__board--16 { --board-columns: 4; }
   &__board--24, &__board--36 { --board-columns: 6; }
-  &__message { min-height: 24px; margin: 18px 0 0; text-align: center; font-size: 18px; }
 }
 
 .memory-card {

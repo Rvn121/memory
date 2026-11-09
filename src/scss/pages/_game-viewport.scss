@@ -39,8 +39,8 @@
   .game__container {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(min-content, 1fr) auto auto;
-    grid-template-areas: 'scores' 'board' 'exit' 'message';
+    grid-template-rows: auto minmax(min-content, 1fr) auto;
+    grid-template-areas: 'scores' 'board' 'exit';
     gap: 7px;
     min-height: calc(100svh - 16px);
     align-items: center;
@@ -89,13 +89,6 @@
     justify-self: center;
     font-size: 16px;
   }
-  .game__message {
-    grid-area: message;
-    min-height: 18px;
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.15;
-  }
   .game-page--theme2 .game__scores { flex-wrap: nowrap; }
 }
 
@@ -113,7 +106,6 @@
     );
     margin-top: 5px;
   }
-  .game__message { margin-top: 4px; min-height: 16px; }
 }
 
 .game__orientation-hint {

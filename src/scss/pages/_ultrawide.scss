@@ -21,5 +21,4 @@
   .game__board { grid-template-columns: repeat(var(--board-columns), 140px); gap: 12px; margin-top: 26px; }
   .memory-card { width: 140px; height: 140px; }
   .game-page--theme2 .memory-card { width: 140px; height: 117px; }
-  .game__message { font-size: 22px; }
 }

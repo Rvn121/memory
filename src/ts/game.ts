@@ -7,7 +7,6 @@ import { renderCard } from './templates/game';
 
 const SETTINGS = loadSettings();
 const BOARD = document.querySelector<HTMLElement>('#game-board')!;
-const MESSAGE = document.querySelector<HTMLElement>('#game-message')!;
 const QUIT_DIALOG = document.querySelector<HTMLElement>('#quit-dialog')!;
 const END_SCREEN = document.querySelector<HTMLElement>('#game-end')!;
 const START_DIALOG = document.querySelector<HTMLElement>('#game-start-dialog')!;
@@ -157,7 +156,6 @@ function awardPair(first: Card, second: Card): void {
   state.scores[state.current]++;
   state.seen.delete(first.id);
   state.seen.delete(second.id);
-  MESSAGE.textContent = `${state.names[state.current]} found a pair!`;
 }
 
 
@@ -168,7 +166,6 @@ function hidePair(first: Card, second: Card): void {
   first.faceUp = false;
   second.faceUp = false;
   state.current = otherPlayer(state.current);
-  MESSAGE.textContent = '';
 }
 
 
@@ -325,7 +322,6 @@ function startNewGame(): void {
   QUIT_DIALOG.hidden = true;
   START_DIALOG.hidden = true;
   END_SCREEN.hidden = true;
-  MESSAGE.textContent = '';
   document.body.classList.toggle('game-page--theme2', SETTINGS.theme === 'da-projects');
   document.body.classList.toggle('game-page--single', SETTINGS.mode === '1P');
   renderBoard();
