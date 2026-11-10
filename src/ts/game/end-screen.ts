@@ -1,12 +1,13 @@
 import { renderConfettiPiece } from '../templates/game';
 import type { GameState, Player } from './types';
 
-const ROOT = import.meta.env.BASE_URL;
-const CONFETTI_COUNT = 20;
-const RESULT_DELAY = 2000;
+const root = import.meta.env.BASE_URL;
+const confettiCount = 20;
+const resultDelay = 2000;
 
 /**
- * Updates both final score counters.
+ * Updates the final score counters for both players.
+ * @param state - Game state containing the final player scores.
  */
 function updateFinalScores(state: GameState): void {
   document.querySelector<HTMLElement>('#final-blue')!.textContent = String(state.scores.blue);
@@ -15,20 +16,21 @@ function updateFinalScores(state: GameState): void {
 
 
 /**
- * Places confetti pieces randomly in the top banner.
+ * Places the decorative confetti images in the result banner.
  */
 function renderConfetti(): void {
   const panel = document.querySelector<HTMLElement>('#game-end-confetti')!;
   panel.replaceChildren();
-  for (let index = 0; index < CONFETTI_COUNT; index++) {
-    const image = renderConfettiPiece(index, CONFETTI_COUNT);
+  for (let index = 0; index < confettiCount; index++) {
+    const image = renderConfettiPiece(index, confettiCount);
     panel.append(image);
   }
 }
 
 
 /**
- * Selects the winner or draw layout and colors.
+ * Shows the winner or draw layout based on the final scores.
+ * @param state - Completed game state with scores and player names.
  */
 function renderOutcome(state: GameState): void {
   const draw = state.scores.blue === state.scores.orange;
@@ -44,7 +46,10 @@ function renderOutcome(state: GameState): void {
 
 
 /**
- * Colors the winning player name and chess pawn.
+ * Displays the winning name and matching pawn artwork.
+ * @param winner - Color assigned to the winning player.
+ * @param name - Winning player's display name.
+ * @param mode - Single-player or two-player game mode.
  */
 function renderWinner(winner: Player, name: string, mode: '1P' | '2P'): void {
   const label = document.querySelector<HTMLElement>('#winner-name')!;
@@ -54,25 +59,30 @@ function renderWinner(winner: Player, name: string, mode: '1P' | '2P'): void {
   document.querySelector<HTMLElement>('.game-end__pawn')!.dataset.winner = winner;
   let pawn = 'chess_pawn.svg';
   if (document.body.classList.contains('game-page--theme2')) pawn = 'playertheme2.svg';
-  document.querySelector<HTMLImageElement>('.game-end__pawn')!.src = `${ROOT}icons/${pawn}`;
+  document.querySelector<HTMLImageElement>('.game-end__pawn')!.src = `${root}icons/${pawn}`;
   renderConfetti();
 }
 
 
 /**
- * First shows Game over, then reveals the winner or draw.
+ * Shows the game-over introduction before the final result.
+ * @param state - Completed game state used to display the result.
+ * @param runId - Identifier of the completed round.
+ * @param runValid - Named validator checking whether the round is still active.
  */
-export function showGameEnd(state: GameState, runValid: () => boolean): void {
+export function showGameEnd(state: GameState, runId: number, runValid: (runId: number) => boolean): void {
   updateEndImages();
   updateFinalScores(state);
   document.querySelector<HTMLElement>('#game-end')!.hidden = false;
   document.querySelector<HTMLElement>('#game-end-intro')!.hidden = false;
   document.querySelector<HTMLElement>('#game-end-outcome')!.hidden = true;
-  window.setTimeout(/** Reveals the result after the game-over delay. */ () => revealOutcome(state, runValid), RESULT_DELAY);
+  window.setTimeout(revealOutcome, resultDelay, state, runId, runValid);
 }
 
 
-/** Selects endscreen artwork for the active game theme. */
+/**
+ * Selects the end-screen artwork for the active visual theme.
+ */
 function updateEndImages(): void {
   const secondTheme = sessionStorage.getItem('memory-settings')?.includes('da-projects');
   let headline = 'game-over';
@@ -81,17 +91,20 @@ function updateEndImages(): void {
     headline = 'game-over2';
     scale = 'icons/drawtheme2.svg';
   }
-  document.querySelector<HTMLImageElement>('.game-end__headline')!.src = `${ROOT}icons/${headline}.svg`;
-  document.querySelector<HTMLImageElement>('.game-end__draw-text')!.src = `${ROOT}img/DRAW_green.png`;
-  document.querySelector<HTMLImageElement>('.game-end__scale')!.src = `${ROOT}${scale}`;
+  document.querySelector<HTMLImageElement>('.game-end__headline')!.src = `${root}icons/${headline}.svg`;
+  document.querySelector<HTMLImageElement>('.game-end__draw-text')!.src = `${root}img/DRAW_green.png`;
+  document.querySelector<HTMLImageElement>('.game-end__scale')!.src = `${root}${scale}`;
 }
 
 
 /**
- * Advances to the final result only for the active game.
+ * Reveals the final result if the current game is still valid.
+ * @param state - Completed game state to render.
+ * @param runId - Identifier of the completed round.
+ * @param runValid - Named validator that prevents outdated results from appearing.
  */
-function revealOutcome(state: GameState, runValid: () => boolean): void {
-  if (!runValid()) return;
+function revealOutcome(state: GameState, runId: number, runValid: (runId: number) => boolean): void {
+  if (!runValid(runId)) return;
   renderOutcome(state);
   document.querySelector<HTMLElement>('#game-end-intro')!.hidden = true;
   document.querySelector<HTMLElement>('#game-end-outcome')!.hidden = false;

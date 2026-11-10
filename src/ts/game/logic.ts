@@ -1,11 +1,12 @@
 import type { Card, GameSettings, GameState, Player } from './types';
 
-const VALID_BOARDS = [16, 24, 36];
-export const COMPUTER_MEMORY_LIMIT = 6;
-export const COMPUTER_RECALL_CHANCE = 0.65;
+const validBoards = [16, 24, 36];
+export const computerMemoryLimit = 6;
+export const computerRecallChance = 0.65;
 
 /**
- * Reads the last game selection and uses safe defaults if it is missing.
+ * Loads game selections from session storage or uses safe defaults.
+ * @returns Validated game settings.
  */
 export function loadSettings(): GameSettings {
   try {
@@ -16,13 +17,17 @@ export function loadSettings(): GameSettings {
 }
 
 
-/** Validates stored selections before applying them to a new game. */
+/**
+ * Validates and normalizes settings loaded from storage.
+ * @param data - Stored game selections that may contain invalid values.
+ * @returns Normalized settings for a new game.
+ */
 function readStoredSettings(data: Partial<GameSettings>): GameSettings {
   const settings = defaultSettings();
   const board = Number(data.board);
   if (data.theme === 'da-projects') settings.theme = 'da-projects';
   if (data.player === 'orange') settings.player = 'orange';
-  if (VALID_BOARDS.includes(board)) settings.board = String(board);
+  if (validBoards.includes(board)) settings.board = String(board);
   if (data.mode === '2P') settings.mode = '2P';
   settings.playerOneName = cleanName(data.playerOneName, 'Player 1');
   settings.playerTwoName = cleanName(data.playerTwoName, 'Player 2');
@@ -31,7 +36,8 @@ function readStoredSettings(data: Partial<GameSettings>): GameSettings {
 
 
 /**
- * Returns a playable default configuration.
+ * Creates the default selection for a playable game.
+ * @returns Default game settings.
  */
 function defaultSettings(): GameSettings {
   return { theme: 'code-vibes', player: 'blue', board: '16', mode: '1P', playerOneName: 'Player 1', playerTwoName: 'Player 2' };
@@ -39,7 +45,10 @@ function defaultSettings(): GameSettings {
 
 
 /**
- * Safely sanitizes a player name read from session storage.
+ * Sanitizes a stored player name and provides a fallback.
+ * @param value - Stored value that may not be a string.
+ * @param fallback - Default name if the stored name is missing or blank.
+ * @returns Validated player name.
  */
 function cleanName(value: unknown, fallback: string): string {
   if (typeof value !== 'string') return fallback;
@@ -50,7 +59,9 @@ function cleanName(value: unknown, fallback: string): string {
 
 
 /**
- * Shuffles a list in place using the Fisher-Yates algorithm.
+ * Randomizes the order of an array in place.
+ * @param items - Array to shuffle using the Fisher-Yates algorithm.
+ * @returns The same array with its elements shuffled.
  */
 export function shuffle<T>(items: T[]): T[] {
   for (let i = items.length - 1; i > 0; i--) {
@@ -64,17 +75,44 @@ export function shuffle<T>(items: T[]): T[] {
 
 
 /**
- * Creates the randomly chosen and duplicated card motifs.
+ * Creates shuffled pairs of randomly selected card motifs.
+ * @param size - Total card count, either 16, 24, or 36.
+ * @returns Shuffled cards with their initial hidden state.
  */
 export function createCards(size: number): Card[] {
-  const choices = shuffle(Array.from({ length: 18 }, /** Converts a zero-based index to a motif number. */ (_, i) => i + 1)).slice(0, size / 2);
+  const choices = shuffle(Array.from({ length: 18 }, createMotifNumber)).slice(0, size / 2);
   const pairs = shuffle([...choices, ...choices]);
-  return pairs.map(/** Creates an initially hidden, unmatched card. */ (motif, id) => ({ id, motif, matched: false, faceUp: false }));
+  return pairs.map(createCard);
 }
 
 
 /**
- * Creates an independent game state with a randomized first player.
+ * Generates consecutive motif numbers for a new deck.
+ * @param unused - Unused array placeholder supplied by Array.from.
+ * @param index - Zero-based motif index.
+ * @returns Motif number starting at one.
+ */
+function createMotifNumber(unused: unknown, index: number): number {
+  return index + 1;
+}
+
+
+/**
+ * Builds a new hidden memory card for a selected motif.
+ * @param motif - Symbol number displayed on the card front.
+ * @param id - Unique position of this card in the board.
+ * @returns A new hidden, unmatched card.
+ */
+function createCard(motif: number, id: number): Card {
+  return { id, motif, matched: false, faceUp: false };
+}
+
+
+/**
+ * Creates a new game with a random starting player.
+ * @param settings - Validated game preferences.
+ * @param runId - Identifier distinguishing this round from previous rounds.
+ * @returns Initialized game state.
  */
 export function createState(settings: GameSettings, runId: number): GameState {
   let current: Player = 'orange';
@@ -91,7 +129,9 @@ export function createState(settings: GameSettings, runId: number): GameState {
 
 
 /**
- * Returns the other player's color.
+ * Finds the opposite player color.
+ * @param player - Color of the currently selected player.
+ * @returns Color of the other player.
  */
 export function otherPlayer(player: Player): Player {
   if (player === 'blue') return 'orange';
@@ -100,16 +140,22 @@ export function otherPlayer(player: Player): Player {
 
 
 /**
- * Returns true if the score lead can no longer be caught.
+ * Checks whether the remaining pairs can still change the result.
+ * @param state - Current cards and player scores.
+ * @returns Whether the round has reached a final result.
  */
 export function hasWinner(state: GameState): boolean {
-  const remaining = state.cards.filter(/** Keeps pairs that have not yet been found. */ (card) => !card.matched).length / 2;
+  let remaining = 0;
+  for (const card of state.cards) if (!card.matched) remaining++;
+  remaining /= 2;
   return Math.abs(state.scores.blue - state.scores.orange) > remaining || remaining === 0;
 }
 
 
 /**
- * Selects a known matching pair when the computer has seen both cards.
+ * Searches the computer's limited memory for two matching cards.
+ * @param state - Game state containing revealed card positions.
+ * @returns Two known matching card indices, or an empty array.
  */
 export function findKnownPair(state: GameState): number[] {
   const groups = new Map<number, number[]>();
@@ -126,7 +172,9 @@ export function findKnownPair(state: GameState): number[] {
 
 
 /**
- * Picks a remembered match to the already open card, if one exists.
+ * Looks for a remembered partner of the currently revealed card.
+ * @param state - Game state with the open card and remembered positions.
+ * @returns Matching card index, or undefined when none is known.
  */
 export function findKnownMatch(state: GameState): number | undefined {
   const first = state.cards[state.flipped[0]];
@@ -139,24 +187,33 @@ export function findKnownMatch(state: GameState): number | undefined {
 
 
 /**
- * Picks a random facedown card, preferring cards not seen before.
+ * Chooses a facedown card, preferring positions not yet remembered.
+ * @param state - Game state containing the cards and computer memory.
+ * @returns Available card index, or undefined when none remain.
  */
 export function findUnknownCard(state: GameState): number | undefined {
-  const candidates = state.cards.filter(/** Keeps cards available for another flip. */ (card) => !card.matched && !card.faceUp);
-  const unknown = candidates.filter(/** Keeps cards the computer has not seen. */ (card) => !state.seen.has(card.id));
+  const candidates: Card[] = [];
+  const unknown: Card[] = [];
+  for (const card of state.cards) {
+    if (card.matched || card.faceUp) continue;
+    candidates.push(card);
+    if (!state.seen.has(card.id)) unknown.push(card);
+  }
   if (unknown.length > 0) return shuffle(unknown)[0]?.id;
   return shuffle(candidates)[0]?.id;
 }
 
 
 /**
- * Remembers only a limited number of recently revealed positions.
+ * Remembers a revealed card within the computer's memory limit.
+ * @param state - Game state holding the limited memory.
+ * @param id - Zero-based index of the revealed card.
  */
 export function rememberCard(state: GameState, id: number): void {
   if (state.mode !== '1P') return;
   state.seen.delete(id);
   state.seen.set(id, state.cards[id].motif);
-  if (state.seen.size > COMPUTER_MEMORY_LIMIT) {
+  if (state.seen.size > computerMemoryLimit) {
     const oldest = state.seen.keys().next().value;
     if (oldest !== undefined) state.seen.delete(oldest);
   }

@@ -1,4 +1,6 @@
-/** Registers responsive placement updates for the exit control. */
+/**
+ * Registers responsive placement changes for the Exit button.
+ */
 export function setupGameLayout(): void {
   const mobileLayout = window.matchMedia('(max-width: 622px)');
   mobileLayout.addEventListener('change', moveExitButton);
@@ -6,7 +8,9 @@ export function setupGameLayout(): void {
 }
 
 
-/** Moves the exit control to the appropriate viewport layout. */
+/**
+ * Places the Exit button below the board on narrow screens.
+ */
 function moveExitButton(): void {
   const header = document.querySelector<HTMLElement>('.game__header');
   const container = document.querySelector<HTMLElement>('.game__container');
