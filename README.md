@@ -7,7 +7,7 @@ A browser-based memory game with two visual themes, a computer opponent and loca
 - **1 player:** Choose Blue or Orange and play against a computer opponent with limited memory.
 - **2 players:** Enter two names (up to 10 characters each) and take turns on one device.
 - **Board sizes:** 4 × 4, 4 × 6 or 6 × 6 cards.
-- **Themes:** Code vibes and DA Projects (replace the existing Theme 2 placeholder SVGs with your supplied artwork).
+- **Themes:** Code vibes and DA Projects (18 SVG card-face assets are included).
 - Scoring, animated card flips, exit confirmation, start-player announcement and game-over screens.
 - Responsive layout and touch controls; landscape guidance when there is not enough space.
 
@@ -46,20 +46,20 @@ npm run preview
 | `src/ts/` | TypeScript and game logic |
 | `src/scss/` | SCSS partials, layout and responsive rules |
 | `public/icons/theme1/` | Theme 1 card faces |
-| `public/icons/theme2/` | Theme 2 card faces; replace placeholder images |
+| `public/icons/theme2/` | Theme 2 SVG card faces |
 | `public/fonts/` | Locally supplied fonts and license files |
 
 ## Fonts
 
 The project uses **Red Rose** (home, Theme 1 and the “Settings” heading), **Almarai** (remaining settings text), and **Figtree** (Theme 2). Fonts are loaded locally with `@font-face`.
 
-Place your licensed font files in `public/fonts/` using these exact names:
+The following licensed font files are already included in `public/fonts/`:
 
 - `RedRose-VariableFont_wght.ttf`
 - `Almarai-Light.ttf`, `Almarai-Regular.ttf`, `Almarai-Bold.ttf`, `Almarai-ExtraBold.ttf`
 - `Figtree-VariableFont_wght.ttf`, `Figtree-Italic-VariableFont_wght.ttf`
 
-Keep the original SIL Open Font License notices in the project. Without the font files the browser falls back to system fonts.
+The corresponding SIL Open Font License notices are included in `public/fonts/`. Ensure these files and the font assets are deployed together.
 
 ## Deploying with Vite
 

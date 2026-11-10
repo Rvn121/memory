@@ -188,6 +188,61 @@ function handleSelection(event: Event): void {
 
 
 /**
+ * Saves the selected game settings and player names for the current browser session.
+ * @returns Nothing.
+ */
+function savePreferences(): void {
+  const settings = { ...selectedSettings, mode: getPlayerMode(), playerOneName: firstName?.value, playerTwoName: secondName?.value };
+  try { sessionStorage.setItem('memory-preferences', JSON.stringify(settings)); }
+  catch (error) { console.warn('Could not save Memory preferences.', error); }
+}
+
+
+/**
+ * Restores previously saved game settings and optional player names.
+ * @returns Nothing.
+ */
+function restorePreferences(): void {
+  clearPersistentPreferences();
+  try {
+    const stored: unknown = JSON.parse(sessionStorage.getItem('memory-preferences') || sessionStorage.getItem('memory-settings') || 'null');
+    if (!stored || typeof stored !== 'object') return;
+    const settings = stored as Record<string, unknown>;
+    for (const name of ['theme', 'player', 'board'] as SettingName[]) restoreSelection(name, settings[name]);
+    if (modeInput) modeInput.checked = settings.mode === '2P';
+    if (firstName && typeof settings.playerOneName === 'string') firstName.value = settings.playerOneName.slice(0, 10);
+    if (secondName && typeof settings.playerTwoName === 'string') secondName.value = settings.playerTwoName.slice(0, 10);
+  } catch (error) { console.warn('Could not restore Memory preferences.', error); }
+}
+
+
+/**
+ * Removes obsolete locally stored game preferences.
+ * @returns Nothing.
+ */
+function clearPersistentPreferences(): void {
+  try { localStorage.removeItem('memory-settings'); }
+  catch (error) { console.warn('Could not remove old Memory preferences.', error); }
+}
+
+
+/**
+ * Restores a saved selection when its value matches an available input.
+ * @param name - Settings field group to restore.
+ * @param value - Previously stored option value to match.
+ * @returns Nothing.
+ */
+function restoreSelection(name: SettingName, value: unknown): void {
+  const inputs = form?.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`) || [];
+  for (const input of Array.from(inputs)) {
+    if (input.value !== value) continue;
+    input.checked = true;
+    selectedSettings[name] = input.value;
+  }
+}
+
+
+/**
  * Restores the preview of the currently selected theme.
  */
 function restorePreview(): void {
@@ -231,6 +286,7 @@ function startGame(): void {
   if (startButton?.disabled || !form?.reportValidity()) return;
   const settings = { ...selectedSettings, mode: getPlayerMode(), playerOneName: getPlayerName(firstName), playerTwoName: getPlayerName(secondName) };
   sessionStorage.setItem('memory-settings', JSON.stringify(settings));
+  savePreferences();
   window.location.href = `${import.meta.env.BASE_URL}game.html`;
 }
 
@@ -249,12 +305,16 @@ function handleSettingsSubmit(event: SubmitEvent): void {
  * Registers settings controls and initializes the current view.
  */
 function initSettings(): void {
+  restorePreferences();
   form?.addEventListener('change', handleSelection);
+  form?.addEventListener('change', savePreferences);
+  form?.addEventListener('input', savePreferences);
   form?.addEventListener('input', updateSummary);
   modeInput?.addEventListener('change', updatePlayerMode);
   form?.addEventListener('submit', handleSettingsSubmit);
   setupPreviews();
   updatePlayerMode();
+  restorePreview();
 }
 
 initSettings();

@@ -36,7 +36,7 @@ function renderOutcome(state: GameState): void {
   const draw = state.scores.blue === state.scores.orange;
   document.querySelector<HTMLElement>('#game-end-winner')!.hidden = draw;
   document.querySelector<HTMLElement>('#game-end-draw')!.hidden = !draw;
-  document.querySelector<HTMLElement>('#game-end-confetti')!.hidden = draw || document.body.classList.contains('game-page--theme2');
+  document.querySelector<HTMLElement>('#game-end-confetti')!.hidden = draw;
   if (!draw) {
     let winner: Player = 'orange';
     if (state.scores.blue > state.scores.orange) winner = 'blue';

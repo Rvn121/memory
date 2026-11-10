@@ -3,6 +3,7 @@ import { createState, findKnownMatch, findKnownPair, findUnknownCard, hasWinner,
 import type { Card, GameState, Player } from './game/types';
 import { showGameEnd } from './game/end-screen';
 import { setupGameLayout } from './game/layout';
+import { renderCurrentPlayer } from './game/current-player';
 import { renderCard } from './templates/game';
 
 const selectedSettings = loadSettings();
@@ -81,10 +82,7 @@ function updateScoreboard(): void {
  * Announces the active player to screen readers.
  */
 function updateTurnAnnouncement(): void {
-  let announcement = `${state.names[state.current]}'s turn`;
-  if (isComputerTurn()) announcement = 'Computer turn';
-  if (state.finished) announcement = '';
-  document.querySelector<HTMLElement>('#turn-announcement')!.textContent = announcement;
+  renderCurrentPlayer(state, selectedSettings.theme);
 }
 
 

@@ -1,0 +1,41 @@
+.player-help {
+  position: relative;
+  display: inline-flex;
+
+  &__button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  &__button img { width: 24px; height: 24px; }
+  &__button:focus-visible { outline: 2px solid #303131; outline-offset: 2px; }
+
+  &__tooltip {
+    position: absolute;
+    z-index: 5;
+    top: 100%;
+    right: 0;
+    width: min(280px, 70vw);
+    padding: 12px;
+    border-radius: 6px;
+    background: #303131;
+    color: #f0ea6e;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    white-space: normal;
+    visibility: hidden;
+  }
+
+  &:hover &__tooltip, &:focus-within &__tooltip { visibility: visible; }
+}
+
+@media (max-width: 400px) {
+  .player-help__tooltip { right: -24px; }
+}

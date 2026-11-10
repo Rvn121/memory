@@ -95,7 +95,7 @@ $theme2-orange: rgba(234, 105, 0, 1);
   .game-page--theme2 .memory-card { width: 100%; height: auto; }
 }
 @media (max-width: 600px) {
-  .game-page--theme2 .game__scores { flex-wrap: wrap; }
+  .game-page--theme2 .game__scores { flex-wrap: nowrap; }
   .game-page--theme2 .game__player { font-size: 16px; }
 }
 
